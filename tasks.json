@@ -117,13 +117,6 @@
 			"command": "${workspaceFolder}/.vscode/build.sh menuconfig",
 			"group": "build",
 			"problemMatcher": []
-		},
-		{
-			"label": "AAAAAAA",
-			"type": "shell",
-			"command": "echo ${input:inputTest}",
-			"group": "build",
-			"problemMatcher": []
 		}
 	],
 	"inputs": [
