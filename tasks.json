@@ -1,0 +1,172 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "checkpatch",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh checkpatch ${input:checkpatchTarget} ${input:checkpatchBase}",
+			"problemMatcher": {
+				"owner": "cpp",
+				"fileLocation": [
+					"relative",
+					"${workspaceFolder}/${input:checkpatchTarget}"
+				],
+				"pattern": [
+					{
+						"regexp": "^(.*(WARNING|ERROR):\\s*.*)$",
+						"severity": 2,
+						"message": 1
+					},
+					{
+						"regexp": "^.*FILE:\\s*(.*):(\\d*):.*$",
+						"file": 1,
+						"line": 2
+					}
+				]
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"group": "build"
+		},
+		{
+			"label": "checkpatch (custom branch)",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh checkpatch ${input:checkpatchTarget} ${input:checkpatchBaseCustom}",
+			"problemMatcher": {
+				"owner": "cpp",
+				"fileLocation": [
+					"relative",
+					"${workspaceFolder}/${input:checkpatchTarget}"
+				],
+				"pattern": [
+					{
+						"regexp": "^(.*(WARNING|ERROR):\\s*.*)$",
+						"severity": 2,
+						"message": 1
+					},
+					{
+						"regexp": "^.*FILE:\\s*(.*):(\\d*):.*$",
+						"file": 1,
+						"line": 2
+					}
+				]
+			},
+			"presentation": {
+				"reveal": "never"
+			},
+			"group": "build"
+		},
+		{
+			"label": "example: build",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh build",
+			"problemMatcher": {
+				"base": "$gcc",
+				"fileLocation": [
+					"relative",
+					"${input:exampleDir}/build_${input:exampleBoard}"
+				]
+			},
+			"group": "build"
+		},
+		{
+			"label": "example: flash",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh flash",
+			"problemMatcher": {
+				"base": "$gcc",
+				"fileLocation": [
+					"relative",
+					"${input:exampleDir}/build_${input:exampleBoard}"
+				]
+			},
+			"group": "build"
+		},
+		{
+			"label": "example: rebuild",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh rebuild",
+			"problemMatcher": {
+				"base": "$gcc",
+				"fileLocation": [
+					"relative",
+					"/dk/ncs/nrf/tests/subsys/bluetooth/gatt_dm/build_nrf52840_pca10056"
+				]
+			},
+			"group": "build"
+		},
+		{
+			"label": "example: purge",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh purge",
+			"problemMatcher": {
+				"base": "$gcc",
+				"fileLocation": [
+					"relative",
+					"${input:exampleDir}/build_${input:exampleBoard}"
+				]
+			},
+			"group": "build"
+		},
+		{
+			"label": "example: menuconfig",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh menuconfig",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "AAAAAAA",
+			"type": "shell",
+			"command": "echo ${input:inputTest}",
+			"group": "build",
+			"problemMatcher": []
+		}
+	],
+	"inputs": [
+		{
+			"id": "exampleDir",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/build.sh getExampleDir",
+				"useFirstResult": true
+			}
+		},
+		{
+			"id": "exampleBoard",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/build.sh getExampleBoard",
+				"useFirstResult": true
+			}
+		},
+		{
+			"id": "checkpatchBase",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/build.sh getCheckpatchBase"
+			}
+		},
+		{
+			"id": "checkpatchBaseCustom",
+			"type": "promptString",
+			"description": "Compare with what commit?"
+		},
+		{
+			"type": "pickString",
+			"id": "checkpatchTarget",
+			"description": "What do you want to check?",
+			"options": [
+				"nrf",
+				"zephyr"
+			],
+			"default": "nrf"
+		}
+	]
+}

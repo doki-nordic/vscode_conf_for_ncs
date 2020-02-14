@@ -1,0 +1,29 @@
+{
+	"files.associations": {
+		"tracing_cpu_stats.h": "c",
+		"tracing.h": "c",
+		"tracing_sysview.h": "c",
+		"ppi_trace.h": "c",
+		"segger_rtt.h": "c",
+		"array": "c",
+		"string_view": "c",
+		"initializer_list": "c",
+		"utility": "c",
+		"typeinfo": "c",
+		"functional": "c",
+		"istream": "c",
+		"ostream": "c",
+		"tuple": "c",
+		"type_traits": "c",
+		"nfc_t2t_lib.h": "c",
+		"nrfx.h": "c",
+		"nrfx_common.h": "c",
+		"gatt_dm.h": "c",
+		"sizeof.h": "c"
+	},
+	"cSpell.words": [
+		"SPDX",
+		"chrc",
+		"printk"
+	]
+}
