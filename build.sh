@@ -1,5 +1,7 @@
 #!/bin/bash
 
+if [ "$1" == "empty" ]; then exit; fi
+
 set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
@@ -11,32 +13,46 @@ touch $OPT/checkpatchBase
 touch $OPT/exampleBoard
 touch $OPT/exampleFolder
 
+if [[ ! -e $(head -n 1 $OPT/exampleFolder)/makefile ]]; then
+	WEST=west
+	MAKE="$DIR/build.sh empty"
+else
+	WEST="$DIR/build.sh empty"
+	MAKE="make --jobs=$(nproc)"
+fi
+
 if [ "$1" == "build" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
+	$MAKE all
 
 elif [ "$1" == "rebuild" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t clean
-	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t clean
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
+	$MAKE clean
+	$MAKE all
 
 elif [ "$1" == "purge" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
 	rm -Rf build_$(head -n 1 $OPT/exampleBoard)
-	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
+	$MAKE clean
+	$MAKE all
 
 elif [ "$1" == "menuconfig" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t menuconfig
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t menuconfig
 
 elif [ "$1" == "flash" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	west flash -d build_$(head -n 1 $OPT/exampleBoard)
+	$WEST flash -d build_$(head -n 1 $OPT/exampleBoard)
+	$MAKE flash
 
 elif [ "$1" == "checkpatch" ]; then
 
