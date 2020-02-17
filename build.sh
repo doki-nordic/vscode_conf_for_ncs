@@ -3,11 +3,13 @@
 set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd $DIR/..
+
 OPT=$DIR/opt$VS_CODE_INSTANCE
 mkdir -p $OPT
-cd $DIR/..
-. $DIR/conf.sh
-
+touch $OPT/checkpatchBase
+touch $OPT/exampleBoard
+touch $OPT/exampleFolder
 
 if [ "$1" == "build" ]; then
 

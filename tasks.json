@@ -134,7 +134,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru checkpatchBase \"From terminal input\""
+				"command": "${workspaceFolder}/.vscode/build.sh mru checkpatchBase"
 			}
 		},
 		{
