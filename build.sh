@@ -3,56 +3,77 @@
 set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+OPT=$DIR/opt$VS_CODE_INSTANCE
+mkdir -p $OPT
 cd $DIR/..
 . $DIR/conf.sh
 
+
 if [ "$1" == "build" ]; then
 
-	cd $EXAMPLE_DIR
-	west build -d build_$EXAMPLE_BOARD -b $EXAMPLE_BOARD
+	cd $(head -n 1 $OPT/exampleFolder)
+	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
 
 elif [ "$1" == "rebuild" ]; then
 
-	cd $EXAMPLE_DIR
-	west build -d build_$EXAMPLE_BOARD -b $EXAMPLE_BOARD -t clean
-	west build -d build_$EXAMPLE_BOARD -b $EXAMPLE_BOARD
+	cd $(head -n 1 $OPT/exampleFolder)
+	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t clean
+	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
 
 elif [ "$1" == "purge" ]; then
 
-	cd $EXAMPLE_DIR
-	rm -Rf build_$EXAMPLE_BOARD
-	west build -d build_$EXAMPLE_BOARD -b $EXAMPLE_BOARD
+	cd $(head -n 1 $OPT/exampleFolder)
+	rm -Rf build_$(head -n 1 $OPT/exampleBoard)
+	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
 
 elif [ "$1" == "menuconfig" ]; then
 
-	cd $EXAMPLE_DIR
-	west build -d build_$EXAMPLE_BOARD -b $EXAMPLE_BOARD -t menuconfig
+	cd $(head -n 1 $OPT/exampleFolder)
+	west build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t menuconfig
 
 elif [ "$1" == "flash" ]; then
 
-	cd $EXAMPLE_DIR
-	west flash -d build_$EXAMPLE_BOARD
+	cd $(head -n 1 $OPT/exampleFolder)
+	west flash -d build_$(head -n 1 $OPT/exampleBoard)
 
 elif [ "$1" == "checkpatch" ]; then
 
 	cd $2
 	git diff $3 | $ZEPHYR_BASE/scripts/checkpatch.pl -
 	echo $3 > /tmp/-build-vscode-checkpatch-tmp.txt
-	cat $DIR/opt/checkpatchBase >> /tmp/-build-vscode-checkpatch-tmp.txt
-	cat /tmp/-build-vscode-checkpatch-tmp.txt | head -10 | awk '!seen[$0]++' > $DIR/opt/checkpatchBase
+	cat $OPT/checkpatchBase >> /tmp/-build-vscode-checkpatch-tmp.txt
+	cat /tmp/-build-vscode-checkpatch-tmp.txt | head -20 | awk '!seen[$0]++' > $OPT/checkpatchBase
 
-elif [ "$1" == "getExampleDir" ]; then
+elif [ "$1" == "mru" ]; then
 
-	echo $EXAMPLE_DIR
+	cat $OPT/$2
+	echo $3
 
-elif [ "$1" == "getExampleBoard" ]; then
+elif [ "$1" == "mruSet" ]; then # $2 - list name, $3 - MRU max count, $4 - value or custom text, $5 value if previous was custom text
 
-	echo $EXAMPLE_BOARD
+	case "$4" in  
+	*\ * )
+		VALUE=$5
+	;;
+	*)
+		VALUE=$4
+	;;
+	esac
 
-elif [ "$1" == "getCheckpatchBase" ]; then
+	if [ "$VALUE" == "[[input]]" ]; then
+		printf "Enter a new value: "
+		IFS= read VALUE
+	fi
 
-	cat $DIR/opt/checkpatchBase
-	echo HEAD
+	echo $VALUE > /tmp/-build-vscode-mru-tmp.txt
+	cat $OPT/$2 >> /tmp/-build-vscode-mru-tmp.txt
+	cat /tmp/-build-vscode-mru-tmp.txt | head -$3 | awk '!seen[$0]++' > $OPT/$2
+
+	echo Current MRU list:
+	cat $OPT/$2
+	echo
+	echo \"$2\" changed to:
+	echo $VALUE
 
 else
 

@@ -4,7 +4,80 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "checkpatch",
+			"label": "example: build",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh build",
+			"problemMatcher": {
+				"base": "$gcc",
+				"fileLocation": [
+					"autoDetect",
+					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
+				]
+			},
+			"group": "build"
+		},
+		{
+			"label": "example: flash",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh flash",
+			"problemMatcher": {
+				"base": "$gcc",
+				"fileLocation": [
+					"autoDetect",
+					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
+				]
+			},
+			"group": "build"
+		},
+		{
+			"label": "example: rebuild",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh rebuild",
+			"problemMatcher": {
+				"base": "$gcc",
+				"fileLocation": [
+					"autoDetect",
+					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
+				]
+			},
+			"group": "build"
+		},
+		{
+			"label": "example: purge",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh purge",
+			"problemMatcher": {
+				"base": "$gcc",
+				"fileLocation": [
+					"autoDetect",
+					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
+				]
+			},
+			"group": "build"
+		},
+		{
+			"label": "example: menuconfig",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh menuconfig",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "example: change folder",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh mruSet exampleFolder 1000 \"${input:exampleFolder}\" ${fileDirname}",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "example: change board",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh mruSet exampleBoard 1000 \"${input:exampleBoard}\" ${fileBasenameNoExtension}",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "checkpatch: run",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh checkpatch ${input:checkpatchTarget} ${input:checkpatchBase}",
 			"problemMatcher": {
@@ -32,101 +105,20 @@
 			"group": "build"
 		},
 		{
-			"label": "checkpatch (custom branch)",
+			"label": "checkpatch: add git base",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh checkpatch ${input:checkpatchTarget} ${input:checkpatchBaseCustom}",
-			"problemMatcher": {
-				"owner": "cpp",
-				"fileLocation": [
-					"relative",
-					"${workspaceFolder}/${input:checkpatchTarget}"
-				],
-				"pattern": [
-					{
-						"regexp": "^(.*(WARNING|ERROR):\\s*.*)$",
-						"severity": 2,
-						"message": 1
-					},
-					{
-						"regexp": "^.*FILE:\\s*(.*):(\\d*):.*$",
-						"file": 1,
-						"line": 2
-					}
-				]
-			},
-			"presentation": {
-				"reveal": "never"
-			},
-			"group": "build"
-		},
-		{
-			"label": "example: build",
-			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh build",
-			"problemMatcher": {
-				"base": "$gcc",
-				"fileLocation": [
-					"relative",
-					"${input:exampleDir}/build_${input:exampleBoard}"
-				]
-			},
-			"group": "build"
-		},
-		{
-			"label": "example: flash",
-			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh flash",
-			"problemMatcher": {
-				"base": "$gcc",
-				"fileLocation": [
-					"relative",
-					"${input:exampleDir}/build_${input:exampleBoard}"
-				]
-			},
-			"group": "build"
-		},
-		{
-			"label": "example: rebuild",
-			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh rebuild",
-			"problemMatcher": {
-				"base": "$gcc",
-				"fileLocation": [
-					"relative",
-					"/dk/ncs/nrf/tests/subsys/bluetooth/gatt_dm/build_nrf52840_pca10056"
-				]
-			},
-			"group": "build"
-		},
-		{
-			"label": "example: purge",
-			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh purge",
-			"problemMatcher": {
-				"base": "$gcc",
-				"fileLocation": [
-					"relative",
-					"${input:exampleDir}/build_${input:exampleBoard}"
-				]
-			},
-			"group": "build"
-		},
-		{
-			"label": "example: menuconfig",
-			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh menuconfig",
+			"command": "${workspaceFolder}/.vscode/build.sh mruSet checkpatchBase 20 \"From Terminal\" [[input]]",
 			"group": "build",
 			"problemMatcher": []
 		}
 	],
 	"inputs": [
 		{
-			"id": "exampleDir",
+			"id": "exampleFolder",
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh getExampleDir",
-				"useFirstResult": true
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleFolder \"From currenly opened CMakeLists.txt\""
 			}
 		},
 		{
@@ -134,8 +126,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh getExampleBoard",
-				"useFirstResult": true
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleBoard \"From currenly opened board yaml file\""
 			}
 		},
 		{
@@ -143,7 +134,25 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh getCheckpatchBase"
+				"command": "${workspaceFolder}/.vscode/build.sh mru checkpatchBase \"From terminal input\""
+			}
+		},
+		{
+			"id": "exampleFolderFirst",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleFolder",
+				"useFirstResult": true
+			}
+		},
+		{
+			"id": "exampleBoardFirst",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleBoard",
+				"useFirstResult": true
 			}
 		},
 		{
