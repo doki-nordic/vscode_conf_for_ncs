@@ -13,7 +13,7 @@ touch $OPT/checkpatchBase
 touch $OPT/exampleBoard
 touch $OPT/exampleFolder
 
-if [[ ! -e $(head -n 1 $OPT/exampleFolder)/makefile ]]; then
+if [[ ! -e $(head -n 1 $OPT/exampleFolder)/Makefile ]]; then
 	WEST=west
 	MAKE="$DIR/build.sh empty"
 else

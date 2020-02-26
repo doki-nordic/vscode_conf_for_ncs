@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "Zephyr",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [
+                "__HEAP_SIZE=8192",
+                "__STACK_SIZE=8192",
+                "NRF52840_XXAA",
+                "FLOAT_ABI_HARD"
+            ],
+            "compilerPath": "/dk/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "gcc-x86",
+            "compilerArgs": [
+                "-mthumb",
+                "-mabi=aapcs",
+                "-mcpu=cortex-m4",
+                "-mfloat-abi=hard",
+                "-mfpu=fpv4-sp-d16",
+                "--specs=nano.specs"
+            ],
+            "forcedInclude": [
+                "/dk/ncs/nrf/samples/bluetooth/peripheral_gatt_dm/build_nrf52_pca10040/zephyr/include/generated/autoconf.h"
+            ]
+        }
+    ],
+    "version": 4
+}
