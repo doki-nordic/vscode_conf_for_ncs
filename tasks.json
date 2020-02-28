@@ -110,6 +110,13 @@
 			"command": "${workspaceFolder}/.vscode/build.sh mruSet checkpatchBase 20 \"From Terminal\" [[input]]",
 			"group": "build",
 			"problemMatcher": []
+		},
+		{
+			"label": "vscode: new instance",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh instance \"${input:instance}\"",
+			"group": "build",
+			"problemMatcher": []
 		}
 	],
 	"inputs": [
@@ -169,6 +176,14 @@
 				"zephyr"
 			],
 			"default": "nrf"
+		},
+		{
+			"id": "instance",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/build.sh mru ../opt/instanceTitles \"Enter a new title\""
+			}
 		}
 	]
 }
