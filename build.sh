@@ -64,6 +64,15 @@ elif [ "$1" == "checkpatch" ]; then
 
 elif [ "$1" == "mru" ]; then
 
+	head -n 1 $OPT/$2 > /tmp/-build-vscode-mru-tmp.txt
+	for DIR in $OPT/../opt*/ ; do
+		head -n 1 $DIR$2 >> /tmp/-build-vscode-mru-tmp.txt
+	done
+	cat $OPT/$2 >> /tmp/-build-vscode-mru-tmp.txt
+	for DIR in $OPT/../opt*/ ; do
+		cat $DIR$2 >> /tmp/-build-vscode-mru-tmp.txt
+	done
+	cat /tmp/-build-vscode-mru-tmp.txt | awk '!seen[$0]++' > $OPT/$2
 	cat $OPT/$2
 	echo $3
 
@@ -121,11 +130,12 @@ elif [ "$1" == "instance" ]; then
 		fi
 	done
 	echo Starting instance $NUMBER
+	cp ~/.config/Code/User/settings.json ~/vscode_instances/$NUMBER/User/settings.json
 	set +e
 	grep "window.title" ~/vscode_instances/$NUMBER/User/settings.json > /dev/null
 	if [ "$?" != "0" ]; then
 		echo "WARNING !!!!"
-		echo "Set window.title settings option and restart instance to correctly show window title!!!"
+		echo "Set window.title setting in main VS Code instance and restart all instances to correctly show window title!!!"
 		echo "Go to File - Preferences - Settings, search for window.title and add anything after \${dirty}"
 	fi
 	set -e
