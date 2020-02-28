@@ -77,6 +77,13 @@
 			"problemMatcher": []
 		},
 		{
+			"label": "terminal",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh term ${input:serials}",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
 			"label": "checkpatch: run",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh checkpatch ${input:checkpatchTarget} ${input:checkpatchBase}",
@@ -183,6 +190,14 @@
 			"command": "shellCommand.execute",
 			"args": {
 				"command": "${workspaceFolder}/.vscode/build.sh mru ../opt/instanceTitles \"Enter a new title\""
+			}
+		},
+		{
+			"id": "serials",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/build.sh serials"
 			}
 		}
 	]

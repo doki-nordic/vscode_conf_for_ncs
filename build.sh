@@ -142,6 +142,29 @@ elif [ "$1" == "instance" ]; then
 	sed -i -E -e "s/(\\\$\{dirty\})([^\\\$]*?)(\\\$\{separator\})?/\1$TITLE\$\{separator\}/g" ~/vscode_instances/$NUMBER/User/settings.json
 	VS_CODE_INSTANCE=$NUMBER code --user-data-dir ~/vscode_instances/$NUMBER
 
+elif [ "$1" == "serials" ]; then
+
+	set +e
+	echo > /tmp/-build-vscode-mru-tmp.txt
+	dmesg | grep -o -E 'tty[a-zA-Z_0-9]+' | while read -r PORT ; do
+		echo $PORT >> /tmp/-build-vscode-mru-tmp.txt
+	done
+	cat /tmp/-build-vscode-mru-tmp.txt | sort | awk '!seen[$0]++' > /tmp/-build-vscode-mru-tmp2.txt
+	SERIAL_PATTERN='[0]*([1-9][0-9]+)'
+	cat /tmp/-build-vscode-mru-tmp2.txt | while read -r PORT ; do
+		if [ "$PORT" == "" ]; then continue; fi
+		SER=`/bin/udevadm info --name=/dev/$PORT | grep -o -E 'ID_SERIAL_SHORT\s*=\s*[0-9]*'`
+		[[ $SER =~ $SERIAL_PATTERN ]]
+		SER=${BASH_REMATCH[1]}
+		if [ "$SER" != "" ]; then SER=" - $SER"; fi
+		echo $PORT$SER
+	done
+
+elif [ "$1" == "term" ]; then
+
+	echo terminal $2
+	minicom -b 115200 -D /dev/$2 -c on
+
 else
 
 	echo "Unknown command"
