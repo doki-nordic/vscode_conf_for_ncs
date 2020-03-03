@@ -121,7 +121,7 @@ elif [ "$1" == "instance" ]; then
 		echo Checking instance slot $NUMBER
 		mkdir -p ~/vscode_instances/$NUMBER
 		set +e
-		code -s --user-data-dir /home/doki/vscode_instances/$NUMBER | grep "Please run it again" > /dev/null
+		code -s --user-data-dir ~/vscode_instances/$NUMBER | grep "Please run it again" > /dev/null
 		RESULT=$?
 		set -e
 		if [ "$RESULT" == "0" ]; then
