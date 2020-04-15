@@ -8,11 +8,21 @@
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh build",
 			"problemMatcher": {
-				"base": "$gcc",
+				"owner": "cpp",
+				"source": "gcc",
 				"fileLocation": [
 					"autoDetect",
 					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
-				]
+				],
+				"pattern": {
+					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-z]+):)?\\s*(.*)$",
+					"severity": 6,
+					"message": 7,
+					"file": 1,
+					"line": 2,
+					"column": 4,
+					"code": 6
+				}
 			},
 			"group": "build"
 		},
@@ -21,11 +31,21 @@
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh flash",
 			"problemMatcher": {
-				"base": "$gcc",
+				"owner": "cpp",
+				"source": "gcc",
 				"fileLocation": [
 					"autoDetect",
 					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
-				]
+				],
+				"pattern": {
+					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-z]+):)?\\s*(.*)$",
+					"severity": 6,
+					"message": 7,
+					"file": 1,
+					"line": 2,
+					"column": 4,
+					"code": 6
+				}
 			},
 			"group": "build"
 		},
@@ -34,11 +54,21 @@
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh rebuild",
 			"problemMatcher": {
-				"base": "$gcc",
+				"owner": "cpp",
+				"source": "gcc",
 				"fileLocation": [
 					"autoDetect",
 					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
-				]
+				],
+				"pattern": {
+					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-z]+):)?\\s*(.*)$",
+					"severity": 6,
+					"message": 7,
+					"file": 1,
+					"line": 2,
+					"column": 4,
+					"code": 6
+				}
 			},
 			"group": "build"
 		},
@@ -47,11 +77,21 @@
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh purge",
 			"problemMatcher": {
-				"base": "$gcc",
+				"owner": "cpp",
+				"source": "gcc",
 				"fileLocation": [
 					"autoDetect",
 					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
-				]
+				],
+				"pattern": {
+					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-z]+):)?\\s*(.*)$",
+					"severity": 6,
+					"message": 7,
+					"file": 1,
+					"line": 2,
+					"column": 4,
+					"code": 6
+				}
 			},
 			"group": "build"
 		},
@@ -180,7 +220,8 @@
 			"description": "What do you want to check?",
 			"options": [
 				"nrf",
-				"zephyr"
+				"zephyr",
+				"nrfxlib"
 			],
 			"default": "nrf"
 		},
