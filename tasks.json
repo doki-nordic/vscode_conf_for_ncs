@@ -15,7 +15,7 @@
 					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
 				],
 				"pattern": {
-					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-z]+):)?\\s*(.*)$",
+					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-zA-Z]+):)?\\s*(.*)$",
 					"severity": 6,
 					"message": 7,
 					"file": 1,
@@ -38,7 +38,7 @@
 					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
 				],
 				"pattern": {
-					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-z]+):)?\\s*(.*)$",
+					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-zA-Z]+):)?\\s*(.*)$",
 					"severity": 6,
 					"message": 7,
 					"file": 1,
@@ -61,7 +61,7 @@
 					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
 				],
 				"pattern": {
-					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-z]+):)?\\s*(.*)$",
+					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-zA-Z]+):)?\\s*(.*)$",
 					"severity": 6,
 					"message": 7,
 					"file": 1,
@@ -84,7 +84,7 @@
 					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
 				],
 				"pattern": {
-					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-z]+):)?\\s*(.*)$",
+					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-zA-Z]+):)?\\s*(.*)$",
 					"severity": 6,
 					"message": 7,
 					"file": 1,
@@ -164,6 +164,13 @@
 			"command": "${workspaceFolder}/.vscode/build.sh instance \"${input:instance}\"",
 			"group": "build",
 			"problemMatcher": []
+		},
+		{
+			"label": "vscode: hide comments",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh comments ${input:onoff}",
+			"group": "build",
+			"problemMatcher": []
 		}
 	],
 	"inputs": [
@@ -240,6 +247,15 @@
 			"args": {
 				"command": "${workspaceFolder}/.vscode/build.sh serials"
 			}
+		},
+		{
+			"type": "pickString",
+			"id": "onoff",
+			"description": "Select one:",
+			"options": [
+				"on",
+				"off"
+			]
 		}
 	]
 }

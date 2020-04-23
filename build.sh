@@ -165,6 +165,14 @@ elif [ "$1" == "term" ]; then
 	echo terminal $2
 	minicom -b 115200 -D /dev/$2 -c on
 
+elif [ "$1" == "comments" ]; then
+
+	if [ "$2" == "off" ]; then
+		sed -i -E -e "s/\"(editor\.tokenColorCustomizations)\"/\"---\1\"/g" $DIR/settings.json
+	elif [ "$2" == "on" ]; then
+		sed -i -E -e "s/\"---(editor\.tokenColorCustomizations)\"/\"\1\"/g" $DIR/settings.json
+	fi
+
 else
 
 	echo "Unknown command"

@@ -19,11 +19,57 @@
 		"nrfx.h": "c",
 		"nrfx_common.h": "c",
 		"gatt_dm.h": "c",
-		"sizeof.h": "c"
+		"sizeof.h": "c",
+		"nrf.h": "c",
+		"dk_buttons_and_leds.h": "c",
+		"zephyr.h": "c",
+		"slist.h": "c",
+		"nrf_power.h": "c",
+		"nrf_reset.h": "c",
+		"autoconf.h": "c",
+		"trans_rpmsg.h": "c",
+		"rpmsg.h": "c",
+		"rp_trans_rpmsg.h": "c",
+		"algorithm": "c",
+		"string": "c",
+		"system_error": "cpp",
+		"ser_common.h": "c",
+		"assert.h": "c",
+		"nrf_rpc.h": "c",
+		"nrf_rpc_errors.h": "c",
+		"stddef.h": "c",
+		"nrf_rpc_tr.h": "c",
+		"nrf_rpc_rpmsg.h": "c",
+		"rp_ll.h": "c",
+		"rp_log.h": "c"
 	},
 	"cSpell.words": [
+		"GPIO",
 		"SPDX",
 		"chrc",
 		"printk"
-	]
+	],
+	"cSpell.diagnosticLevel": "Hint",
+	"C_Cpp.errorSquiggles": "Disabled",
+	"todo-tree.general.tags": [
+		"NEXT:",
+		"DKTODO:"
+	],
+	"editor.tokenColorCustomizations": {
+		"comments": "#213d25",
+		"textMateRules": [
+			{
+				"scope": "storage.type.class.doxygen.c",
+				"settings": {
+					"foreground": "#203b37"
+				}
+			},
+			{
+				"scope": "comment.block.documentation.c variable.parameter.c",
+				"settings": {
+					"foreground": "#203b37"
+				}
+			}
+		]
+	}
 }
