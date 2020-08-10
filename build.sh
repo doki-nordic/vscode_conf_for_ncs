@@ -24,14 +24,16 @@ fi
 if [ "$1" == "build" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
+	echo cd `pwd`
+	echo $WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd)
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd)
 	$MAKE all
 
 elif [ "$1" == "rebuild" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t clean
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd) -t clean
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd)
 	$MAKE clean
 	$MAKE all
 
@@ -39,19 +41,19 @@ elif [ "$1" == "purge" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
 	rm -Rf build_$(head -n 1 $OPT/exampleBoard)
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard)
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd)
 	$MAKE clean
 	$MAKE all
 
 elif [ "$1" == "menuconfig" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t menuconfig
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd) -t menuconfig
 
 elif [ "$1" == "flash" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	$WEST flash -d build_$(head -n 1 $OPT/exampleBoard)
+	$WEST flash -d build_$(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd)
 	$MAKE flash
 
 elif [ "$1" == "checkpatch" ]; then
@@ -74,12 +76,13 @@ elif [ "$1" == "mru" ]; then
 	done
 	cat /tmp/-build-vscode-mru-tmp.txt | awk '!seen[$0]++' > $OPT/$2
 	cat $OPT/$2
-	echo $3
+	echo "[[empty]]"
+	echo "$3"
 
 elif [ "$1" == "mruSet" ]; then # $2 - list name, $3 - MRU max count, $4 - value or custom text, $5 value if previous was custom text
 
 	case "$4" in  
-	*\ * )
+	\ \ \ * )
 		VALUE=$5
 	;;
 	*)
@@ -90,6 +93,9 @@ elif [ "$1" == "mruSet" ]; then # $2 - list name, $3 - MRU max count, $4 - value
 	if [ "$VALUE" == "[[input]]" ]; then
 		printf "Enter a new value: "
 		IFS= read VALUE
+	fi
+	if [ "$VALUE" == "[[empty]]" ]; then
+		VALUE=
 	fi
 
 	echo $VALUE > /tmp/-build-vscode-mru-tmp.txt
@@ -172,6 +178,12 @@ elif [ "$1" == "comments" ]; then
 	elif [ "$2" == "on" ]; then
 		sed -i -E -e "s/\"---(editor\.tokenColorCustomizations)\"/\"\1\"/g" $DIR/settings.json
 	fi
+
+elif [ "$1" == "nrf_rpc_gen" ]; then
+
+	echo node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang \"$2\"
+	node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang /dk/ncs/nrf/subsys/bluetooth/rpc/client/bt_rpc_gap_cli.c
+	#node nrf_rpc_generator/main.js "$2"
 
 else
 

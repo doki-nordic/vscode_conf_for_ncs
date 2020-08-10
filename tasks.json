@@ -117,6 +117,13 @@
 			"problemMatcher": []
 		},
 		{
+			"label": "example: change arguments",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh mruSet exampleCmd 1000 \"${input:exampleCmd}\" [[input]]",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
 			"label": "terminal",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh term ${input:serials}",
@@ -154,7 +161,7 @@
 		{
 			"label": "checkpatch: add git base",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh mruSet checkpatchBase 20 \"From Terminal\" [[input]]",
+			"command": "${workspaceFolder}/.vscode/build.sh mruSet checkpatchBase 20 \"   From Terminal\" [[input]]",
 			"group": "build",
 			"problemMatcher": []
 		},
@@ -171,6 +178,13 @@
 			"command": "${workspaceFolder}/.vscode/build.sh comments ${input:onoff}",
 			"group": "build",
 			"problemMatcher": []
+		},
+		{
+			"label": "nrf_rpc_gen: regenerate this file",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh nrf_rpc_gen ${file}",
+			"group": "build",
+			"problemMatcher": []
 		}
 	],
 	"inputs": [
@@ -179,7 +193,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru exampleFolder \"From currenly opened CMakeLists.txt\""
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleFolder \"   From currenly opened CMakeLists.txt\""
 			}
 		},
 		{
@@ -187,7 +201,15 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru exampleBoard \"From currenly opened board yaml file\""
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleBoard \"   From currenly opened board yaml file\"",
+			}
+		},
+		{
+			"id": "exampleCmd",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleCmd \"   From terminal\""
 			}
 		},
 		{
@@ -237,7 +259,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru ../opt/instanceTitles \"Enter a new title\""
+				"command": "${workspaceFolder}/.vscode/build.sh mru ../opt/instanceTitles \"   Enter a new title\""
 			}
 		},
 		{

@@ -41,7 +41,15 @@
 		"nrf_rpc_tr.h": "c",
 		"nrf_rpc_rpmsg.h": "c",
 		"rp_ll.h": "c",
-		"rp_log.h": "c"
+		"rp_log.h": "c",
+		"random": "c",
+		"nrf_rpc_cbor.h": "c",
+		"stdbool.h": "c",
+		"cbor.h": "c",
+		"chrono": "c",
+		"ratio": "c",
+		"optional": "c",
+		"*.tcc": "c"
 	},
 	"cSpell.words": [
 		"GPIO",
@@ -55,21 +63,30 @@
 		"NEXT:",
 		"DKTODO:"
 	],
-	"editor.tokenColorCustomizations": {
+	"---editor.tokenColorCustomizations": {
 		"comments": "#213d25",
 		"textMateRules": [
 			{
-				"scope": "storage.type.class.doxygen.c",
+				"scope": "storage.type.class.doxygen.c, storage.type.class.doxygen.cpp",
 				"settings": {
 					"foreground": "#203b37"
 				}
 			},
 			{
-				"scope": "comment.block.documentation.c variable.parameter.c",
+				"scope": "comment.block.documentation.c variable.parameter.c, comment.block.documentation.cpp variable.parameter.cpp",
 				"settings": {
 					"foreground": "#203b37"
 				}
 			}
 		]
-	}
+	},
+	"restructuredtext.confPath": "",
+	"restructuredtext.preview.scrollEditorWithPreview": false,
+	"restructuredtext.preview.scrollPreviewWithEditor": false,
+	"workbench.editorAssociations": [
+		{
+			"viewType": "hediet.vscode-drawio-text",
+			"filenamePattern": "*.svg"
+		}
+	]
 }
