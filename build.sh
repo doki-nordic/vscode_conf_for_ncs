@@ -52,6 +52,7 @@ elif [ "$1" == "target" ]; then
 elif [ "$1" == "flash" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd)
 	$WEST flash -d build_$(head -n 1 $OPT/exampleBoard)
 	$MAKE flash
 
@@ -81,7 +82,7 @@ elif [ "$1" == "mru" ]; then
 elif [ "$1" == "mruSet" ]; then # $2 - list name, $3 - MRU max count, $4 - value or custom text, $5 value if previous was custom text
 
 	case "$4" in  
-	\ \ \ * )
+	+\ \ \ * )
 		VALUE=$5
 	;;
 	*)

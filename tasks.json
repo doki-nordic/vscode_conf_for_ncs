@@ -168,7 +168,7 @@
 		{
 			"label": "checkpatch: add git base",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh mruSet checkpatchBase 20 \"   From Terminal\" [[input]]",
+			"command": "${workspaceFolder}/.vscode/build.sh mruSet checkpatchBase 20 \"+   From Terminal\" [[input]]",
 			"group": "build",
 			"problemMatcher": []
 		},
@@ -200,7 +200,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru exampleFolder \"   From currenly opened CMakeLists.txt\""
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleFolder \"+   From currenly opened CMakeLists.txt\""
 			}
 		},
 		{
@@ -208,7 +208,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru exampleBoard \"   From currenly opened board yaml file\"",
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleBoard \"+   From currenly opened board yaml file\"",
 			}
 		},
 		{
@@ -216,7 +216,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru exampleCmd \"   From terminal\""
+				"command": "${workspaceFolder}/.vscode/build.sh mru exampleCmd \"+   From terminal\""
 			}
 		},
 		{
@@ -266,7 +266,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru ../opt/instanceTitles \"   Enter a new title\""
+				"command": "${workspaceFolder}/.vscode/build.sh mru ../opt/instanceTitles \"+   Enter a new title\""
 			}
 		},
 		{
