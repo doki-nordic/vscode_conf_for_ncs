@@ -25,15 +25,14 @@ if [ "$1" == "build" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
 	echo cd `pwd`
-	echo $WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd)
 	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd)
 	$MAKE all
 
 elif [ "$1" == "rebuild" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd) -t clean
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd)
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd) -t clean
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd)
 	$MAKE clean
 	$MAKE all
 
@@ -41,19 +40,19 @@ elif [ "$1" == "purge" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
 	rm -Rf build_$(head -n 1 $OPT/exampleBoard)
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd)
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd)
 	$MAKE clean
 	$MAKE all
 
-elif [ "$1" == "menuconfig" ]; then
+elif [ "$1" == "target" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd) -t menuconfig
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t $2 -- $(head -n 1 $OPT/exampleCmd)
 
 elif [ "$1" == "flash" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	$WEST flash -d build_$(head -n 1 $OPT/exampleBoard) $(head -n 1 $OPT/exampleCmd)
+	$WEST flash -d build_$(head -n 1 $OPT/exampleBoard)
 	$MAKE flash
 
 elif [ "$1" == "checkpatch" ]; then
@@ -181,9 +180,9 @@ elif [ "$1" == "comments" ]; then
 
 elif [ "$1" == "nrf_rpc_gen" ]; then
 
-	echo node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang \"$2\"
-	node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang /dk/ncs/nrf/subsys/bluetooth/rpc/client/bt_rpc_gap_cli.c
-	#node nrf_rpc_generator/main.js "$2"
+	echo node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang \"$2\"
+	#node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang /dk/ncs/nrf/subsys/bluetooth/rpc/client/bt_rpc_gatt_cli.c
+	node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang "$2"
 
 else
 

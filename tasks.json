@@ -98,7 +98,14 @@
 		{
 			"label": "example: menuconfig",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh menuconfig",
+			"command": "${workspaceFolder}/.vscode/build.sh target menuconfig",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "example: guiconfig",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh target guiconfig",
 			"group": "build",
 			"problemMatcher": []
 		},
