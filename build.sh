@@ -185,6 +185,20 @@ elif [ "$1" == "nrf_rpc_gen" ]; then
 	#node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang /dk/ncs/nrf/subsys/bluetooth/rpc/client/bt_rpc_gatt_cli.c
 	node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang "$2"
 
+ elif [ "$1" == "nrf_rpc_gen_prev" ]; then
+
+	tmp_dir=`mktemp -d /tmp/XXXXXXXXXX`
+	cp "$2" $tmp_dir/OLD.c
+	echo node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang \"$2\"
+	node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang "$2"
+	cp "$2" $tmp_dir/NEW.c
+	node nrf_rpc_generator/strip.js $tmp_dir
+	if [ -z ${VS_CODE_INSTANCE+x} ]; then
+		code -r -d $tmp_dir/OLD.c $tmp_dir/NEW.c
+	else
+		code --user-data-dir ~/vscode_instances/$NUMBER -r -d $tmp_dir/OLD.c $tmp_dir/NEW.c
+	fi
+
 else
 
 	echo "Unknown command"

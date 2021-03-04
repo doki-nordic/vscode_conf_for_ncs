@@ -192,6 +192,13 @@
 			"command": "${workspaceFolder}/.vscode/build.sh nrf_rpc_gen ${file}",
 			"group": "build",
 			"problemMatcher": []
+		},
+		{
+			"label": "nrf_rpc_gen: regenerate this file with preview",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh nrf_rpc_gen_prev ${file}",
+			"group": "build",
+			"problemMatcher": []
 		}
 	],
 	"inputs": [
