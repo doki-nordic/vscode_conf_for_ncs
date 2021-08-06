@@ -31,7 +31,7 @@ if [ "$1" == "build" ]; then
 elif [ "$1" == "rebuild" ]; then
 
 	cd $(head -n 1 $OPT/exampleFolder)
-	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd) -t clean
+	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -t clean -- $(head -n 1 $OPT/exampleCmd)
 	$WEST build -d build_$(head -n 1 $OPT/exampleBoard) -b $(head -n 1 $OPT/exampleBoard) -- $(head -n 1 $OPT/exampleCmd)
 	$MAKE clean
 	$MAKE all
@@ -183,21 +183,61 @@ elif [ "$1" == "nrf_rpc_gen" ]; then
 
 	echo node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang \"$2\"
 	#node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang /dk/ncs/nrf/subsys/bluetooth/rpc/client/bt_rpc_gatt_cli.c
-	node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang "$2"
+	node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang "$2"
 
  elif [ "$1" == "nrf_rpc_gen_prev" ]; then
 
 	tmp_dir=`mktemp -d /tmp/XXXXXXXXXX`
 	cp "$2" $tmp_dir/OLD.c
 	echo node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang \"$2\"
-	node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang "$2"
+	node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang "$2"
 	cp "$2" $tmp_dir/NEW.c
 	node nrf_rpc_generator/strip.js $tmp_dir
+	if cmp -s $tmp_dir/OLD.c $tmp_dir/NEW.c; then
+		echo There are no changes > $tmp_dir/OLD.c
+		echo There are no changes > $tmp_dir/NEW.c
+	fi
 	if [ -z ${VS_CODE_INSTANCE+x} ]; then
 		code -r -d $tmp_dir/OLD.c $tmp_dir/NEW.c
 	else
 		code --user-data-dir ~/vscode_instances/$NUMBER -r -d $tmp_dir/OLD.c $tmp_dir/NEW.c
 	fi
+
+elif [ "$1" == "docs" ]; then
+
+	cd nrf/doc
+
+	if [ "$2" == "+" ]; then
+		rm -Rf _build || true
+		cmake -GNinja -S. -B_build
+	fi
+
+	cd _build
+
+	shopt -s globstar
+	case "$2" in
+	**/Kconfig*) T=kconfig-html;;
+	nrfxlib/**) T=nrfxlib-html;;
+	nrf/**) T=nrf-html;;
+	*) T=;;
+	esac
+
+	echo Building target $T to refresh file $2
+	ninja $T
+	C=$?
+	for f in html/**/_static/documentation_options.js; do
+		if ! grep -Fq "auto-reload-appended" $f; then
+			cat $DIR/docs_server/auto_reload.js >> $f
+			echo '/* auto-reload-appended */' >> $f
+			echo Patched `realpath $f`
+		fi
+	done
+	date > html/lastBuild.txt
+	exit $C
+
+elif [ "$1" == "docs_server" ]; then
+
+	$DIR/docs_server/node_modules/.bin/http-server nrf/doc/_build/html -p 8078 -c-1 -o
 
 else
 

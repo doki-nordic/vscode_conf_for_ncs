@@ -1,4 +1,15 @@
 {
+	"triggerTaskOnSave.tasks": {
+		"doc: build current file": [
+			"**/*.rst",
+			"**/*.h",
+			"**/Kconfig*"
+		]
+	},
+	"triggerTaskOnSave.showStatusBarToggle": true,
+	"triggerTaskOnSave.resultIndicator": "statusBar.background",
+    "triggerTaskOnSave.failureColour": "#800000",
+    "triggerTaskOnSave.successColour": "#008800",
 	"files.associations": {
 		"tracing_cpu_stats.h": "c",
 		"tracing.h": "c",
@@ -49,7 +60,10 @@
 		"chrono": "c",
 		"ratio": "c",
 		"optional": "c",
-		"*.tcc": "c"
+		"*.tcc": "c",
+		"nrf_rpc_log.h": "c",
+		"errno.h": "c",
+		"errno-base.h": "c"
 	},
 	"cSpell.words": [
 		"GPIO",
@@ -83,10 +97,8 @@
 	"restructuredtext.confPath": "",
 	"restructuredtext.preview.scrollEditorWithPreview": false,
 	"restructuredtext.preview.scrollPreviewWithEditor": false,
-	"workbench.editorAssociations": [
-		{
-			"viewType": "hediet.vscode-drawio-text",
-			"filenamePattern": "*.svg"
-		}
-	]
+	"workbench.editorAssociations": {
+		"*.svg": "hediet.vscode-drawio-text"
+	},
+	"workbench.colorCustomizations": {}
 }

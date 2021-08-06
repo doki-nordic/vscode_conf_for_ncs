@@ -1,0 +1,8 @@
+{
+  "name": "doc-dev-server",
+  "private": true,
+  "version": "0.0.1",
+  "dependencies": {
+    "http-server": "^0.12.3"
+  }
+}
