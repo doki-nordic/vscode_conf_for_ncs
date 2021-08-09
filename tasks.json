@@ -4,6 +4,12 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "vscode: source this zephyr environment",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh source_zephyr",
+			"problemMatcher": []
+		},
+		{
 			"label": "doc: build current file",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh docs ${relativeFile}",

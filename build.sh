@@ -185,7 +185,7 @@ elif [ "$1" == "nrf_rpc_gen" ]; then
 	#node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang /dk/ncs/nrf/subsys/bluetooth/rpc/client/bt_rpc_gatt_cli.c
 	node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang "$2"
 
- elif [ "$1" == "nrf_rpc_gen_prev" ]; then
+elif [ "$1" == "nrf_rpc_gen_prev" ]; then
 
 	tmp_dir=`mktemp -d /tmp/XXXXXXXXXX`
 	cp "$2" $tmp_dir/OLD.c
@@ -242,6 +242,21 @@ elif [ "$1" == "docs_server" ]; then
 		npm update
 	fi
 	$DIR/docs_server/node_modules/.bin/http-server $DIR/../nrf/doc/_build/html -p 8178 -c-1 -o
+
+elif [ "$1" == "source_zephyr" ]; then
+
+	echo $DIR/build.sh _source_zephyr_inner $DIR/../zephyr/zephyr-env.sh > /tmp/defalt_env_serv_run
+
+elif [ "$1" == "_source_zephyr_inner" ]; then
+
+	echo Closing VS Code windows
+	while wmctrl -l -x | grep code.Code; do
+		wmctrl -x -c code.Code
+		sleep 0.5
+	done
+	echo Sourcing Zephyr from $2
+	source $2 || true
+	code
 
 else
 
