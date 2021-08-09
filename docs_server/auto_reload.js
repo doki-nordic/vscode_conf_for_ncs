@@ -54,12 +54,5 @@ function autoReloadPopup() {
     }
 }
 
-function autoScroll() {
-    if (location.hash.startsWith('#--scroll-to=')) {
-        let y = location.hash.substr(0, 13);
-        window.scrollTo(x, parseInt(y));
-    }
-}
-
 setTimeout(checkReload, 1);
 window.addEventListener('DOMContentLoaded', autoReloadPopup);

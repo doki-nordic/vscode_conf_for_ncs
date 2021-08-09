@@ -240,9 +240,8 @@ elif [ "$1" == "docs_server" ]; then
 	if [ ! -d "$DIR/docs_server/node_modules/.bin" ]; then
 		cd $DIR/docs_server
 		npm update
-		cd ..
 	fi
-	$DIR/docs_server/node_modules/.bin/http-server nrf/doc/_build/html -p 8178 -c-1 -o
+	$DIR/docs_server/node_modules/.bin/http-server $DIR/../nrf/doc/_build/html -p 8178 -c-1 -o
 
 else
 
