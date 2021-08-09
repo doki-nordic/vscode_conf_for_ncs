@@ -6,6 +6,34 @@ Tasks Shell Input Extension
 
 https://marketplace.visualstudio.com/items?itemName=augustocdias.tasks-shell-input
 
+## Installation
+
+* If you don't have `.vscode` directory in you NSC directory yet:
+
+  ```bash
+  git clone https://github.com/doki-nordic/vscode_conf_for_ncs.git .vscode
+  ```
+
+* If you already have `.vscode` directory with configuration that you want to keep:
+  ```bash
+  mv .vscode _vscode_tmp
+  git clone https://github.com/doki-nordic/vscode_conf_for_ncs.git .vscode
+  # Now, try to merge your settings from "_vscode_tmp" into ".vscode".
+  # You can use e.g. "meld" tool:
+  meld _vscode_tmp .vscode
+  # And delete "_vscode_tmp" when you are done.
+  rm -Rf _vscode_tmp
+  ```
+
+After installation, you should see `.vscode` directory alongside with the `nrf`, `zephyr`, `nrfxlib`, e.t.c. You can now open NCS directory in VSCode and you can start any of the implemented tasks.
+
+> ### Hint
+> Add simple keyboard shortcut to show list of tasks. I am using `Pause/Break` key.
+> 1. Open `File` -> `Preferences` -> `Keyboard shortcuts`.
+> 1. Type `workbench.action.tasks.runTask` to find `Tasks: Run Task` action.
+> 1. Double click it.
+> 1. Press key that you want to use (e.g. `Pause/Break`). VSCode will show a message if it is already in use by other action.
+
 ## Implemented tasks
 
  * `example:`
