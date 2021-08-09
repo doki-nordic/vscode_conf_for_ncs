@@ -217,14 +217,15 @@ elif [ "$1" == "docs" ]; then
 	shopt -s globstar
 	case "$2" in
 	**/Kconfig*) T=kconfig-html;;
-	nrfxlib/**) T=nrfxlib-html;;
 	nrf/**) T=nrf-html;;
+	zephyr/**) T=zephyr-html;;
+	nrfxlib/**) T=nrfxlib-html;;
+	modules/hal/nordic/nrfx/**) T=nrfx-html;;
 	*) T=;;
 	esac
 
 	echo Building target $T to refresh file $2
 	ninja $T
-	C=$?
 	for f in html/**/_static/documentation_options.js; do
 		if ! grep -Fq "auto-reload-appended" $f; then
 			cat $DIR/docs_server/auto_reload.js >> $f
@@ -233,11 +234,15 @@ elif [ "$1" == "docs" ]; then
 		fi
 	done
 	date > html/lastBuild.txt
-	exit $C
 
 elif [ "$1" == "docs_server" ]; then
 
-	$DIR/docs_server/node_modules/.bin/http-server nrf/doc/_build/html -p 8078 -c-1 -o
+	if [ ! -d "$DIR/docs_server/node_modules/.bin" ]; then
+		cd $DIR/docs_server
+		npm update
+		cd ..
+	fi
+	$DIR/docs_server/node_modules/.bin/http-server nrf/doc/_build/html -p 8178 -c-1 -o
 
 else
 

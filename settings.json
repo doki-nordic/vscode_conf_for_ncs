@@ -10,6 +10,7 @@
 	"triggerTaskOnSave.resultIndicator": "statusBar.background",
     "triggerTaskOnSave.failureColour": "#800000",
     "triggerTaskOnSave.successColour": "#008800",
+	"triggerTaskOnSave.restart": true,
 	"files.associations": {
 		"tracing_cpu_stats.h": "c",
 		"tracing.h": "c",
