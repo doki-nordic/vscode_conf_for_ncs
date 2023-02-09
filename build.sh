@@ -169,7 +169,7 @@ elif [ "$1" == "serials" ]; then
 elif [ "$1" == "term" ]; then
 
 	echo terminal $2
-	minicom -b 115200 -D /dev/$2 -c on
+	minicom -b 115200 -c on -D /dev/$2
 
 elif [ "$1" == "comments" ]; then
 
@@ -181,16 +181,16 @@ elif [ "$1" == "comments" ]; then
 
 elif [ "$1" == "nrf_rpc_gen" ]; then
 
-	echo node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang \"$2\"
-	#node nrf_rpc_generator/main.js --dump-ast --clang-path=/dk/apps/clang /dk/ncs/nrf/subsys/bluetooth/rpc/client/bt_rpc_gatt_cli.c
-	node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang "$2"
+	echo node nrf_rpc_generator/main.js --clang-path=/home/doki/work/apps/clang \"$2\"
+	#node nrf_rpc_generator/main.js --dump-ast --clang-path=/home/doki/work/apps/clang /dk/ncs/nrf/subsys/bluetooth/rpc/client/bt_rpc_gatt_cli.c
+	node nrf_rpc_generator/main.js --clang-path=/home/doki/work/apps/clang "$2"
 
 elif [ "$1" == "nrf_rpc_gen_prev" ]; then
 
 	tmp_dir=`mktemp -d /tmp/XXXXXXXXXX`
 	cp "$2" $tmp_dir/OLD.c
-	echo node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang \"$2\"
-	node nrf_rpc_generator/main.js --clang-path=/dk/apps/clang "$2"
+	echo node nrf_rpc_generator/main.js --clang-path=/home/doki/work/apps/clang \"$2\"
+	node nrf_rpc_generator/main.js --clang-path=/home/doki/work/apps/clang "$2"
 	cp "$2" $tmp_dir/NEW.c
 	node nrf_rpc_generator/strip.js $tmp_dir
 	if cmp -s $tmp_dir/OLD.c $tmp_dir/NEW.c; then
@@ -205,47 +205,48 @@ elif [ "$1" == "nrf_rpc_gen_prev" ]; then
 
 elif [ "$1" == "docs" ]; then
 
-	cd nrf/doc
+	cd $DIR/../nrf/doc
 
 	if [ "$2" == "+" ]; then
-		rm -Rf _build || true
-		cmake -GNinja -S. -B_build
+		rm -Rf build_doc || true
+		cmake -DSPHINXOPTS_DEFAULT="-j 3" -GNinja -S. -Bbuild_doc
 	fi
 
-	cd _build
+	cd build_doc
 
 	shopt -s globstar
 	case "$2" in
-	**/Kconfig*) T=kconfig-html;;
-	nrf/**) T=nrf-html;;
-	zephyr/**) T=zephyr-html;;
-	nrfxlib/**) T=nrfxlib-html;;
-	modules/hal/nordic/nrfx/**) T=nrfx-html;;
-	*) T=;;
+	**/Kconfig*) T=kconfig-all;;
+	nrf/**) T=nrf-all;;
+	zephyr/**) T=zephyr-all;;
+	nrfxlib/**) T=nrfxlib-all;;
+	modules/hal/nordic/nrfx/**) T=nrfx-all;;
+	-) T=;;
+	*) echo Cannot detect module based on file path!
+		exit 1
+		;;
 	esac
 
-	echo Building target $T to refresh file $2
-	ninja $T
-	for f in html/**/_static/documentation_options.js; do
-		if ! grep -Fq "auto-reload-appended" $f; then
-			cat $DIR/docs_server/auto_reload.js >> $f
-			echo '/* auto-reload-appended */' >> $f
-			echo Patched `realpath $f`
-		fi
-	done
-	date > html/lastBuild.txt
+	if [ -z "$T" ]
+	then
+		echo Building everything...
+		ninja
+	else
+		echo Building target $T to refresh file $2
+		ninja -t commands $T > /tmp/build_commands.txt
+		echo "#!/bin/bash" > /tmp/build_commands.sh
+		tail -n 1 /tmp/build_commands.txt >> /tmp/build_commands.sh
+		chmod 755 /tmp/build_commands.sh
+		/tmp/build_commands.sh
+	fi
 
 elif [ "$1" == "docs_server" ]; then
 
-	if [ ! -d "$DIR/docs_server/node_modules/.bin" ]; then
-		cd $DIR/docs_server
-		npm update
-	fi
-	$DIR/docs_server/node_modules/.bin/http-server $DIR/../nrf/doc/_build/html -p 8178 -c-1 -o
+	python3 $DIR/docs_server/serv.py 8178 $DIR/../nrf/doc/build_doc/html
 
 elif [ "$1" == "source_zephyr" ]; then
 
-	echo $DIR/build.sh _source_zephyr_inner $DIR/../zephyr/zephyr-env.sh > /tmp/defalt_env_serv_run
+	gnome-terminal --no-environment -- $DIR/build.sh _source_zephyr_inner $DIR/../zephyr/zephyr-env.sh
 
 elif [ "$1" == "_source_zephyr_inner" ]; then
 
@@ -256,6 +257,7 @@ elif [ "$1" == "_source_zephyr_inner" ]; then
 	done
 	echo Sourcing Zephyr from $2
 	source $2 || true
+	source $DIR/../.venv/bin/activate || true
 	code
 
 else

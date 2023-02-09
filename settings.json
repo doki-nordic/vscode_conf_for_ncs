@@ -1,16 +1,19 @@
 {
 	"triggerTaskOnSave.tasks": {
 		"doc: build current file": [
-			"**/*.rst",
-			"**/*.h",
-			"**/Kconfig*"
+			"**/*.rst"
 		]
 	},
 	"triggerTaskOnSave.showStatusBarToggle": true,
 	"triggerTaskOnSave.resultIndicator": "statusBar.background",
-    "triggerTaskOnSave.failureColour": "#800000",
-    "triggerTaskOnSave.successColour": "#008800",
+	"triggerTaskOnSave.failureColour": "#800000",
+	"triggerTaskOnSave.successColour": "#008800",
 	"triggerTaskOnSave.restart": true,
+	"editor.rulers": [
+		{"column": 80, "color": "#242424"},
+		{"column": 90, "color": "#303030"},
+		{"column": 100, "color": "#303030"}
+	],
 	"files.associations": {
 		"tracing_cpu_stats.h": "c",
 		"tracing.h": "c",
@@ -64,13 +67,33 @@
 		"*.tcc": "c",
 		"nrf_rpc_log.h": "c",
 		"errno.h": "c",
-		"errno-base.h": "c"
+		"errno-base.h": "c",
+		"*.inc": "c",
+		"variant": "c",
+		"bluetooth.h": "c",
+		"bitset": "c",
+		"ranges": "c",
+		"span": "c",
+		"sm_ipt.h": "c",
+		"shell_uart.h": "c",
+		"throughput.h": "c",
+		"hci.h": "c",
+		"main.h": "c",
+		"stdint.h": "c",
+		"leds.h": "c",
+		"multiproto.h": "c"
 	},
 	"cSpell.words": [
-		"GPIO",
-		"SPDX",
 		"chrc",
-		"printk"
+		"GPIO",
+		"MPSL",
+		"multiproto",
+		"printk",
+		"sbom",
+		"scancode",
+		"SPDX",
+		"timeslot",
+		"timeslots"
 	],
 	"cSpell.diagnosticLevel": "Hint",
 	"C_Cpp.errorSquiggles": "Disabled",
@@ -101,5 +124,19 @@
 	"workbench.editorAssociations": {
 		"*.svg": "hediet.vscode-drawio-text"
 	},
-	"workbench.colorCustomizations": {}
+	"workbench.colorCustomizations": {},
+	"cSpell.enableFiletypes": [
+		"kconfig"
+	],
+	"python.linting.pylintEnabled": true,
+	"python.linting.enabled": true,
+	"restructuredtext.syntaxHighlighting.disabled": true,
+	"esbonio.sphinx.confDir": "",
+	"git.allowForcePush": true,
+	"git.autoRepositoryDetection": "openEditors",
+	"git.detectSubmodules": false,
+	"git.useForcePushWithLease": false,
+	"git.ignoreSubmodules": true,
+	"git.repositoryScanMaxDepth": 0,
+	"git.detectSubmodulesLimit": 0
 }

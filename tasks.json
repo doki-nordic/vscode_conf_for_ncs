@@ -7,31 +7,51 @@
 			"label": "vscode: source this zephyr environment",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh source_zephyr",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "server-process",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "doc: build current file",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh docs ${relativeFile}",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "book",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "doc: build",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh docs -",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "book",
+				"color": "terminal.ansiGreen"
+			}
 		},
 		{
 			"label": "doc: rebuild",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh docs +",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "book",
+				"color": "terminal.ansiRed"
+			}
 		},
 		{
 			"label": "doc: server",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh docs_server",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "server-environment",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: build",
@@ -54,7 +74,11 @@
 					"code": 6
 				}
 			},
-			"group": "build"
+			"group": "build",
+			"icon": {
+				"id": "file-binary",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: flash",
@@ -77,7 +101,11 @@
 					"code": 6
 				}
 			},
-			"group": "build"
+			"group": "build",
+			"icon": {
+				"id": "debug-start",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: rebuild",
@@ -100,7 +128,11 @@
 					"code": 6
 				}
 			},
-			"group": "build"
+			"group": "build",
+			"icon": {
+				"id": "library",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: purge",
@@ -123,7 +155,18 @@
 					"code": 6
 				}
 			},
-			"group": "build"
+			"group": "build",
+			"icon": {
+				"id": "symbol-field",
+				"color": "terminal.ansiBlue"
+			}
+		},
+		{
+			"label": "example: run posix",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh target run",
+			"group": "build",
+			"problemMatcher": []
 		},
 		{
 			"label": "example: menuconfig",
@@ -140,18 +183,40 @@
 			"problemMatcher": []
 		},
 		{
+			"label": "example: eleconfig",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh target eleconfig",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
+			"label": "example: rom_report",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh target rom_report",
+			"group": "build",
+			"problemMatcher": []
+		},
+		{
 			"label": "example: change folder",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh mruSet exampleFolder 1000 \"${input:exampleFolder}\" ${fileDirname}",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "folder-opened",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: change board",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh mruSet exampleBoard 1000 \"${input:exampleBoard}\" ${fileBasenameNoExtension}",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "circuit-board",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: change arguments",
