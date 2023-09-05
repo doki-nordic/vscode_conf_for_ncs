@@ -9,9 +9,10 @@
                 "__HEAP_SIZE=8192",
                 "__STACK_SIZE=8192",
                 "NRF52840_XXAA",
-                "FLOAT_ABI_HARD"
+                "FLOAT_ABI_HARD",
+                "CONFIG_BT_GATT_DYNAMIC_DB"
             ],
-            "compilerPath": "/dk/zephyr-sdk/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
+            "compilerPath": "/home/doki/zephyr-sdk-0.15.2/arm-zephyr-eabi/bin/arm-zephyr-eabi-gcc",
             "cStandard": "c11",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x86",
@@ -24,8 +25,9 @@
                 "--specs=nano.specs"
             ],
             "forcedInclude": [
-                "/dk/ncs/nrf/samples/bluetooth/peripheral_gatt_dm/build_nrf52_pca10040/zephyr/include/generated/autoconf.h"
-            ]
+                "${workspaceFolder}/nrf/samples/bluetooth/throughput/build/zephyr/include/generated/autoconf.h"
+            ],
+            "compileCommands": "${workspaceFolder}/nrf/samples/bluetooth/throughput/build/compile_commands.json"
         }
     ],
     "version": 4

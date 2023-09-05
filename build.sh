@@ -152,6 +152,8 @@ elif [ "$1" == "serials" ]; then
 
 	set +e
 	echo > /tmp/-build-vscode-mru-tmp.txt
+	# On Ubuntu, see: /etc/sysctl.d/10-kernel-hardening.conf
+	# https://unix.stackexchange.com/a/390187
 	dmesg | grep -o -E 'tty[a-zA-Z_0-9]+' | while read -r PORT ; do
 		echo $PORT >> /tmp/-build-vscode-mru-tmp.txt
 	done
@@ -168,8 +170,19 @@ elif [ "$1" == "serials" ]; then
 
 elif [ "$1" == "term" ]; then
 
-	echo terminal $2
-	minicom -b 115200 -c on -D /dev/$2
+	echo terminal ${@:3}
+	if [ "$2" == "New Window" ]; then
+		gnome-terminal -t "$3 $4 $5" -- $DIR/build.sh term-window ${@:3}
+	else
+		minicom -b 115200 -c on -D /dev/$3
+	fi
+
+elif [ "$1" == "term-window" ]; then
+
+	echo terminal ${@:2}
+	minicom -b 115200 -c on -D /dev/$2 || true
+	echo Press ENTER to continue
+	read
 
 elif [ "$1" == "comments" ]; then
 
@@ -209,19 +222,24 @@ elif [ "$1" == "docs" ]; then
 
 	if [ "$2" == "+" ]; then
 		rm -Rf build_doc || true
-		cmake -DSPHINXOPTS_DEFAULT="-j 3" -GNinja -S. -Bbuild_doc
+		kb_per_job=$((3 * 1024 * 1024))
+		cpu_count=`nproc`
+		mem_kb=`grep MemAvailable /proc/meminfo | awk '{print $2}'`
+		max_jobs=$((kb <= kb_per_job ? 1 : kb / kb_per_job))
+		max_jobs=$((cpu_count < max_jobs ? cpu_count : max_jobs))
+		cmake -DSPHINXOPTS_DEFAULT="-j $max_jobs" -GNinja -S. -Bbuild_doc
 	fi
 
 	cd build_doc
 
 	shopt -s globstar
 	case "$2" in
-	**/Kconfig*) T=kconfig-all;;
 	nrf/**) T=nrf-all;;
 	zephyr/**) T=zephyr-all;;
 	nrfxlib/**) T=nrfxlib-all;;
 	modules/hal/nordic/nrfx/**) T=nrfx-all;;
 	-) T=;;
+	+) T=;;
 	*) echo Cannot detect module based on file path!
 		exit 1
 		;;
@@ -258,6 +276,7 @@ elif [ "$1" == "_source_zephyr_inner" ]; then
 	echo Sourcing Zephyr from $2
 	source $2 || true
 	source $DIR/../.venv/bin/activate || true
+	unset GNOME_TERMINAL_SCREEN
 	code
 
 else

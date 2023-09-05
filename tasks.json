@@ -1,6 +1,4 @@
 {
-	// See https://go.microsoft.com/fwlink/?LinkId=733558
-	// for the documentation about the tasks.json format
 	"version": "2.0.0",
 	"tasks": [
 		{
@@ -19,7 +17,7 @@
 			"command": "${workspaceFolder}/.vscode/build.sh docs ${relativeFile}",
 			"problemMatcher": [],
 			"icon": {
-				"id": "book",
+				"id": "go-to-file",
 				"color": "terminal.ansiBlue"
 			}
 		},
@@ -30,7 +28,7 @@
 			"problemMatcher": [],
 			"icon": {
 				"id": "book",
-				"color": "terminal.ansiGreen"
+				"color": "terminal.ansiBlue"
 			}
 		},
 		{
@@ -40,7 +38,7 @@
 			"problemMatcher": [],
 			"icon": {
 				"id": "book",
-				"color": "terminal.ansiRed"
+				"color": "terminal.ansiBlue"
 			}
 		},
 		{
@@ -56,7 +54,7 @@
 		{
 			"label": "example: build",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh build",
+			"command": "${workspaceFolder}/.vscode/cmd build ",
 			"problemMatcher": {
 				"owner": "cpp",
 				"source": "gcc",
@@ -83,7 +81,7 @@
 		{
 			"label": "example: flash",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh flash",
+			"command": "${workspaceFolder}/.vscode/cmd flash ",
 			"problemMatcher": {
 				"owner": "cpp",
 				"source": "gcc",
@@ -110,7 +108,7 @@
 		{
 			"label": "example: rebuild",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh rebuild",
+			"command": "${workspaceFolder}/.vscode/cmd rebuild ",
 			"problemMatcher": {
 				"owner": "cpp",
 				"source": "gcc",
@@ -137,7 +135,7 @@
 		{
 			"label": "example: purge",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh purge",
+			"command": "${workspaceFolder}/.vscode/cmd purge ",
 			"problemMatcher": {
 				"owner": "cpp",
 				"source": "gcc",
@@ -164,43 +162,79 @@
 		{
 			"label": "example: run posix",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh target run",
-			"group": "build",
-			"problemMatcher": []
+			"command": "${workspaceFolder}/.vscode/cmd target run",
+			"problemMatcher": [],
+			"icon": {
+				"id": "play",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: menuconfig",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh target menuconfig",
-			"group": "build",
-			"problemMatcher": []
+			"command": "${workspaceFolder}/.vscode/cmd target menuconfig",
+			"problemMatcher": [],
+			"icon": {
+				"id": "check-all",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: guiconfig",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh target guiconfig",
-			"group": "build",
-			"problemMatcher": []
+			"command": "${workspaceFolder}/.vscode/cmd target guiconfig",
+			"problemMatcher": [],
+			"icon": {
+				"id": "check-all",
+				"color": "terminal.ansiBlue"
+			}
+		},
+		{
+			"label": "example: remote menuconfig",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/cmd target remote_menuconfig",
+			"problemMatcher": [],
+			"icon": {
+				"id": "check-all",
+				"color": "terminal.ansiBlue"
+			}
+		},
+		{
+			"label": "example: remote guiconfig",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/cmd target remote_guiconfig",
+			"problemMatcher": [],
+			"icon": {
+				"id": "check-all",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: eleconfig",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh target eleconfig",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "check-all",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: rom_report",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh target rom_report",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "symbol-file",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "example: change folder",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh mruSet exampleFolder 1000 \"${input:exampleFolder}\" ${fileDirname}",
-			"group": "build",
+			"command": "${workspaceFolder}/.vscode/cmd set_sample \"${input:_helper_samples}\" ${fileDirname}",
 			"problemMatcher": [],
 			"icon": {
 				"id": "folder-opened",
@@ -210,8 +244,7 @@
 		{
 			"label": "example: change board",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh mruSet exampleBoard 1000 \"${input:exampleBoard}\" ${fileBasenameNoExtension}",
-			"group": "build",
+			"command": "${workspaceFolder}/.vscode/cmd set_board \"${input:_helper_boards}\"",
 			"problemMatcher": [],
 			"icon": {
 				"id": "circuit-board",
@@ -221,16 +254,34 @@
 		{
 			"label": "example: change arguments",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh mruSet exampleCmd 1000 \"${input:exampleCmd}\" [[input]]",
-			"group": "build",
-			"problemMatcher": []
+			"command": "${workspaceFolder}/.vscode/cmd set_build_args \"${input:_helper_build_args}\"",
+			"problemMatcher": [],
+			"icon": {
+				"id": "ellipsis",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "terminal",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh term ${input:serials}",
+			"command": "${workspaceFolder}/.vscode/build.sh term \"${input:window}\" ${input:serials}",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "terminal-powershell",
+				"color": "terminal.ansiBlue"
+			}
+		},
+		{
+			"label": "terminal 2",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/build.sh term \"${input:window}\" ${input:serials}",
+			"group": "build",
+			"problemMatcher": [],
+			"icon": {
+				"id": "terminal-powershell",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "checkpatch: run",
@@ -258,42 +309,75 @@
 			"presentation": {
 				"reveal": "never"
 			},
-			"group": "build"
+			"icon": {
+				"id": "checklist",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "checkpatch: add git base",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh mruSet checkpatchBase 20 \"+   From Terminal\" [[input]]",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "checklist",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "vscode: new instance",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh instance \"${input:instance}\"",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "empty-window",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "vscode: hide comments",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh comments ${input:onoff}",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "comment-draft",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "nrf_rpc_gen: regenerate this file",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh nrf_rpc_gen ${file}",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "hubot",
+				"color": "terminal.ansiBlue"
+			}
 		},
 		{
 			"label": "nrf_rpc_gen: regenerate this file with preview",
 			"type": "shell",
 			"command": "${workspaceFolder}/.vscode/build.sh nrf_rpc_gen_prev ${file}",
 			"group": "build",
-			"problemMatcher": []
+			"problemMatcher": [],
+			"icon": {
+				"id": "hubot",
+				"color": "terminal.ansiBlue"
+			}
+		},
+		{
+			"label": "vscode: refresh tasks",
+			"type": "shell",
+			"command": "${workspaceFolder}/.vscode/cmd refresh_tasks ",
+			"problemMatcher": [],
+			"icon": {
+				"id": "extensions-sync-enabled",
+				"color": "terminal.ansiBlue"
+			}
 		}
 	],
 	"inputs": [
@@ -302,7 +386,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru exampleFolder \"+   From currenly opened CMakeLists.txt\""
+				"command": "${workspaceFolder}/.vscode/cmd samples"
 			}
 		},
 		{
@@ -310,7 +394,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru exampleBoard \"+   From currenly opened board yaml file\"",
+				"command": "${workspaceFolder}/.vscode/cmd boards"
 			}
 		},
 		{
@@ -318,7 +402,7 @@
 			"type": "command",
 			"command": "shellCommand.execute",
 			"args": {
-				"command": "${workspaceFolder}/.vscode/build.sh mru exampleCmd \"+   From terminal\""
+				"command": "${workspaceFolder}/.vscode/cmd build_commands"
 			}
 		},
 		{
@@ -380,6 +464,16 @@
 			}
 		},
 		{
+			"id": "window",
+			"type": "pickString",
+			"description": "Where you want to run it?",
+			"options": [
+				"Terminal Panel",
+				"New Window"
+			],
+			"default": "Terminal Panel"
+		},
+		{
 			"type": "pickString",
 			"id": "onoff",
 			"description": "Select one:",
@@ -387,6 +481,47 @@
 				"on",
 				"off"
 			]
+		},
+		{
+			"id": "_helper_boards",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/cmd boards"
+			}
+		},
+		{
+			"id": "_helper_samples",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/cmd samples"
+			}
+		},
+		{
+			"id": "_helper_some",
+			"type": "promptString",
+			"description": "The input prompt?"
+		},
+		{
+			"id": "_helper_test_cinput",
+			"type": "pickString",
+			"description": "Choose one:",
+			"options": [
+				"one",
+				"two",
+				"three",
+				"and more"
+			],
+			"default": "one"
+		},
+		{
+			"id": "_helper_build_args",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/cmd build_args"
+			}
 		}
 	]
 }

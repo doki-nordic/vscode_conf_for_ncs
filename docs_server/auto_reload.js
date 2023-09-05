@@ -23,7 +23,7 @@
                 await checkForUpdates(time == null);
             }
         } finally {
-            window.requestAnimationFrame(animationFrame);
+            setTimeout(() => window.requestAnimationFrame(animationFrame), 1000);
         }
     }
     animationFrame(null);
@@ -31,7 +31,7 @@
 
 let autoReloadPopupIter = null;
 
-function autoReloadPopup() {
+function autoReloadPopup(time) {
     let pageAccessedByReload = (
         (window.performance.navigation && window.performance.navigation.type === 1) ||
         window.performance
@@ -49,17 +49,20 @@ function autoReloadPopup() {
             z-index: 10000; background-color: #080; color: white; font-weight: bold; font-size: 300%;
             padding: 40px; box-shadow: 0 0 20px #080;">Page reloaded</div>`;
         document.body.appendChild(div);
-        autoReloadPopupIter = 300;
+        autoReloadPopupIter = time + 3000;
     } else {
         div = document.getElementById('_autoReloadPopup');
     }
-    div.style.opacity = Math.min(100, autoReloadPopupIter) + '%';
-    autoReloadPopupIter -= 5;
-    if (autoReloadPopupIter >= 0) {
-        setTimeout(autoReloadPopup, 50);
+    let delta = (autoReloadPopupIter - time) / 10
+    console.log(delta);
+    div.style.opacity = Math.min(100, delta) + '%';
+    if (delta > 100) {
+        setTimeout(() => window.requestAnimationFrame(autoReloadPopup), (delta - 100) * 10);
+    } else if (delta >= 0) {
+        window.requestAnimationFrame(autoReloadPopup);
     } else {
-        div.style.display = 'none';
+            div.style.display = 'none';
     }
 }
 
-window.addEventListener('DOMContentLoaded', autoReloadPopup);
+window.addEventListener('DOMContentLoaded', () => window.requestAnimationFrame(autoReloadPopup));

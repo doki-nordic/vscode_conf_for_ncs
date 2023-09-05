@@ -100,3 +100,63 @@ After installation, you should see `.vscode` directory alongside with the `nrf`,
 > ### Note
 > Bacause of some issue in `Trigger Task on Save` extension, you have to start `docs: build current file`
 > at least once before you enable this extension with the button on the status bar.
+
+## Writing new tasks
+
+Tasks:
+
+1. Put Python tasks in a new file in the `.vscode/src` directory.
+2. For each task create a new function.
+   Function name must be unique, because task will be identified
+   using this name.
+3. Add special docstring describing the task.
+   ```
+   '''!
+   task label, option 1, option 2, ...
+       command line arguments
+   '''
+   ```
+   * `task label` is any label you want
+   * `options` are currently:
+     * `gcc` - use gcc problem matcher for the task output
+     * `icon=xyz` - set task icon, list of icons:
+       https://code.visualstudio.com/api/references/icons-in-labels
+   * `command line arguments` - arguments passed over command line.
+     You can use vscode variables, e.g. `${fileDirname}` or 
+     `${input:xyz}`. You can use `argv(n)` from `common` module to access arguments
+     (`n` is zero-based and starts at the first argument of `command line arguments`)
+   * You can define multiple tasks for one function
+4. Run `tasks.py` or run task `vscode: refresh tasks` in vscode to
+   refresh `tasks.json`.
+
+Inputs:
+
+1. Input is a function that has special docstring:
+   ```
+   '''!input'''
+   ```
+2. It prints possible values one per line.
+3. Can be referenced in command line as `${input:your_function_name}`
+4. Other types of inputs:
+   * User input:
+     ```
+     def func():
+         '''!
+         input
+             Please type your input:
+         '''
+         pass
+     ```
+   * Static list pick:
+     ```
+     def func():
+         '''!
+         input
+             Please select you number:
+             One
+             Two
+             Three
+             Four
+         '''
+         pass
+     ```
