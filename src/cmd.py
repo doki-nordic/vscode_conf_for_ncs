@@ -23,11 +23,11 @@ def main():
         exit(import_module("build").flash())
     elif argv[1] == "target":
         exit(import_module("build").target())
-    elif argv[1] == "some":
-        exit(import_module("tasks").some())
-    elif argv[1] == "test_cinput":
-        exit(import_module("tasks").test_cinput())
     elif argv[1] == "refresh_tasks":
         exit(import_module("tasks").refresh_tasks())
+    elif argv[1] == "source_zephyr":
+        exit(import_module("vscode").source_zephyr())
+    elif argv[1] == "source_zephyr_inner":
+        exit(import_module("vscode").source_zephyr_inner())
 if __name__ == "__main__":
     main()

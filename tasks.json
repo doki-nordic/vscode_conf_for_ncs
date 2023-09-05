@@ -4,7 +4,7 @@
 		{
 			"label": "vscode: source this zephyr environment",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh source_zephyr",
+			"command": "${workspaceFolder}/.vscode/cmd source_zephyr ",
 			"problemMatcher": [],
 			"icon": {
 				"id": "server-process",
@@ -497,23 +497,6 @@
 			"args": {
 				"command": "${workspaceFolder}/.vscode/cmd samples"
 			}
-		},
-		{
-			"id": "_helper_some",
-			"type": "promptString",
-			"description": "The input prompt?"
-		},
-		{
-			"id": "_helper_test_cinput",
-			"type": "pickString",
-			"description": "Choose one:",
-			"options": [
-				"one",
-				"two",
-				"three",
-				"and more"
-			],
-			"default": "one"
 		},
 		{
 			"id": "_helper_build_args",

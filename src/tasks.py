@@ -72,10 +72,13 @@ def add_task(func_name, options, args):
     options = re.split(r'\s*,\s*', options)
     label = options[0]
     is_gcc = False
+    is_hidden = False
     icon = None
     for option in options[1:]:
-        if option.startswith('gcc'):
+        if option == 'gcc':
             is_gcc = True
+        elif option == 'hide':
+            is_hidden = True
         elif option.startswith('icon='):
             icon = option[5:]
         else:
@@ -95,6 +98,8 @@ def add_task(func_name, options, args):
         task['problemMatcher'] = []
     if icon:
         task['icon'] = { 'id': icon, 'color': 'terminal.ansiBlue' }
+    if is_hidden:
+        task['__HIDE__'] = True
     tasks.append(task)
 
 def add_entry(mod_name, func_name, text):
@@ -136,7 +141,8 @@ def replace_array(arr, new_items, is_our, is_the_same):
         if is_our(old_item):
             old_item['__DELETE__'] = True
     for new_item in new_items:
-        new_item['__NEW__'] = True
+        if '__HIDE__' not in new_item:
+            new_item['__NEW__'] = True
     for i, old_item in list(enumerate(arr)):
         for new_item in new_items:
             if '__NEW__' in new_item and is_the_same(old_item, new_item):

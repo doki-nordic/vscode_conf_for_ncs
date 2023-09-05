@@ -2,6 +2,7 @@
 from pathlib import Path
 import sys
 import subprocess
+import tempfile
 
 scripts_dir = Path(__file__).parent.resolve()
 vscode_dir = scripts_dir.parent.resolve()
@@ -9,14 +10,34 @@ opt_dir = (vscode_dir / 'opt').resolve()
 root_dir = vscode_dir.parent.resolve()
 opt_dir.mkdir(exist_ok=True)
 
-def exec(args, cwd=None):
+def bash_args(args, bash):
+    if not bash:
+        return args
+    with tempfile.NamedTemporaryFile('w+', suffix='.sh', delete=False) as f:
+        f.write('#!/bin/sh\n' + args)
+        f.close()
+        return ['bash', f.name]
+
+def bash_end(args, bash):
+    if bash:
+        try:
+            Path(args[1]).unlink()
+        except:
+            pass
+
+def exec(args, cwd=None, allow_fail=False, bash=False):
+    args = bash_args(args, bash)
     print(f'Run command: {green(" ".join(str(a) for a in args))}\n')
     sub = subprocess.run(args, cwd=cwd)
-    if sub.returncode != 0:
+    bash_end(args, bash)
+    if sub.returncode != 0 and not allow_fail:
         sys.exit(sub.returncode)
+    return sub.returncode
 
-def get_stdout(args, cwd=None):
+def get_stdout(args, cwd=None, bash=False):
+    args = bash_args(args, bash)
     sub = subprocess.run(args, cwd=cwd, capture_output=True, check=True)
+    bash_end(args, bash)
     if len(sub.stderr) > 0:
         print(sub.stderr.decode('utf-8'), file=sys.stderr)
         sys.exit(5)
