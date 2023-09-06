@@ -68,7 +68,10 @@ def add_input(func_name, args):
         })
 
 def add_task(func_name, options, args):
-    args = ' '.join(args)
+    command_line = args[0] if len(args) > 0 else ''
+    task = {}
+    if len(args) > 1:
+        task = json.loads('\n'.join(args[1:]))
     options = re.split(r'\s*,\s*', options)
     label = options[0]
     is_gcc = False
@@ -85,12 +88,10 @@ def add_task(func_name, options, args):
             print('Unknown option', option, file=sys.stderr)
             exit(5)
     for from_str, to_str in args_replace.items():
-        args = args.replace(from_str, to_str)
-    task = {
-        'label': label,
-        'type': 'shell',
-        'command': '${workspaceFolder}/.vscode/cmd ' + func_name + ' ' + args,
-    }
+        command_line = command_line.replace(from_str, to_str)
+    task['label'] = label
+    task['type'] = 'shell'
+    task['command'] = '${workspaceFolder}/.vscode/cmd ' + func_name + ' ' + command_line
     if is_gcc:
         task['problemMatcher'] = GCC_PROBLEM_MATCHER
         task['group'] = 'build'

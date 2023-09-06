@@ -262,21 +262,15 @@
 			}
 		},
 		{
+			"runOptions": {
+				"instanceLimit": 100
+			},
+			"presentation": {
+				"close": true
+			},
 			"label": "terminal",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh term \"${input:window}\" ${input:serials}",
-			"group": "build",
-			"problemMatcher": [],
-			"icon": {
-				"id": "terminal-powershell",
-				"color": "terminal.ansiBlue"
-			}
-		},
-		{
-			"label": "terminal 2",
-			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh term \"${input:window}\" ${input:serials}",
-			"group": "build",
+			"command": "${workspaceFolder}/.vscode/cmd term \"${input:_helper_term_window}\" ${input:_helper_serials}",
 			"problemMatcher": [],
 			"icon": {
 				"id": "terminal-powershell",
@@ -328,8 +322,7 @@
 		{
 			"label": "vscode: new instance",
 			"type": "shell",
-			"command": "${workspaceFolder}/.vscode/build.sh instance \"${input:instance}\"",
-			"group": "build",
+			"command": "${workspaceFolder}/.vscode/cmd instance \"${input:_helper_instance_title}\"",
 			"problemMatcher": [],
 			"icon": {
 				"id": "empty-window",
@@ -504,6 +497,32 @@
 			"command": "shellCommand.execute",
 			"args": {
 				"command": "${workspaceFolder}/.vscode/cmd build_args"
+			}
+		},
+		{
+			"id": "_helper_serials",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/cmd serials"
+			}
+		},
+		{
+			"id": "_helper_term_window",
+			"type": "pickString",
+			"description": "Where place the terminal",
+			"options": [
+				"VSCode panel",
+				"New window"
+			],
+			"default": "VSCode panel"
+		},
+		{
+			"id": "_helper_instance_title",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/cmd instance_title"
 			}
 		}
 	]

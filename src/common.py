@@ -1,14 +1,22 @@
 
 from pathlib import Path
 import sys
+import os
 import subprocess
 import tempfile
 
+vscode_instance_id = os.environ.get('VS_CODE_INSTANCE')
+if vscode_instance_id is None:
+    vscode_instance_id = ''
+
 scripts_dir = Path(__file__).parent.resolve()
 vscode_dir = scripts_dir.parent.resolve()
-opt_dir = (vscode_dir / 'opt').resolve()
+global_opt_dir = (vscode_dir / 'opt').resolve()
+current_opt_dir = (vscode_dir / ('opt' + vscode_instance_id)).resolve()
 root_dir = vscode_dir.parent.resolve()
-opt_dir.mkdir(exist_ok=True)
+
+global_opt_dir.mkdir(exist_ok=True)
+current_opt_dir.mkdir(exist_ok=True)
 
 def bash_args(args, bash):
     if not bash:
@@ -49,7 +57,7 @@ def argv(index):
     return None
 
 def mru_list(name):
-    file: Path = opt_dir / (name + '.mru.txt')
+    file: Path = global_opt_dir / (name + '.mru.txt')
     if not file.exists():
         file.touch()
     return (x.strip() for x in file.read_text().splitlines() if x.strip() != '')
@@ -67,7 +75,9 @@ def opt_input(text):
 def mru_update(name, value):
     if value.startswith('[['):
         return value
-    file: Path = opt_dir / (name + '.mru.txt')
+    file: Path = global_opt_dir / (name + '.mru.txt')
+    if not file.exists():
+        file.touch()
     out = [value]
     out.extend(x.strip() for x in file.read_text().splitlines() if x.strip() != '' and x.strip() != value.strip())
     out = '\n'.join(out)
@@ -76,13 +86,13 @@ def mru_update(name, value):
         file.write_text(out)
     return value
 
-def set_value(name, value):
-    file: Path = opt_dir / (name + '.txt')
+def set_value(name, value, global_opt=False):
+    file: Path = (global_opt_dir if global_opt else current_opt_dir) / (name + '.txt')
     file.write_text(value)
     return value
 
 def get_value(name):
-    file: Path = opt_dir / (name + '.txt')
+    file: Path = current_opt_dir / (name + '.txt')
     if not file.exists():
         return None
     return file.read_text()

@@ -1,7 +1,15 @@
 from importlib import import_module
 from sys import argv
 def main():
-    if argv[1] == "boards":
+    if argv[1] == "serials":
+        exit(import_module("serial").serials())
+    elif argv[1] == "term_window":
+        exit(import_module("serial").term_window())
+    elif argv[1] == "term_inner":
+        exit(import_module("serial").term_inner())
+    elif argv[1] == "term":
+        exit(import_module("serial").term())
+    elif argv[1] == "boards":
         exit(import_module("build").boards())
     elif argv[1] == "set_board":
         exit(import_module("build").set_board())
@@ -29,5 +37,9 @@ def main():
         exit(import_module("vscode").source_zephyr())
     elif argv[1] == "source_zephyr_inner":
         exit(import_module("vscode").source_zephyr_inner())
+    elif argv[1] == "instance_title":
+        exit(import_module("vscode").instance_title())
+    elif argv[1] == "instance":
+        exit(import_module("vscode").instance())
 if __name__ == "__main__":
     main()
