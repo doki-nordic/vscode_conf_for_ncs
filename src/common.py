@@ -106,3 +106,19 @@ def green(text):
 
 def red(text):
     return f'\x1b[1m\x1b[31m{text}\x1b[0m'
+
+def convert_bash_options(options):
+    with tempfile.NamedTemporaryFile('w+', suffix='.sh', delete=False) as f:
+        f.write(f'''#!/bin/bash
+                "{sys.executable}" {Path(__file__).resolve()} -ARGS- {options}
+                ''')
+        name = f.name
+        f.close()
+    res = get_stdout(['bash', name])
+    pos1 = res.find('---dkgHKuya89awHSDKh908----')
+    pos2 = res.find('---AkgHKuya893j4h2SDKh90Q----')
+    return res[pos1 + 27:pos2].split('\n')
+
+if __name__ == '__main__':
+    if len(sys.argv) > 1 and sys.argv[1] == '-ARGS-':
+        print('---dkgHKuya89awHSDKh908----' + '\n'.join(sys.argv[2:]) + '---AkgHKuya893j4h2SDKh90Q----')

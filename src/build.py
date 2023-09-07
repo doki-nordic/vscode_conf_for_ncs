@@ -68,37 +68,37 @@ def set_sample():
     print(f'Current sample: {green(val)}\n\n')
     return 0
 
-def build_args():
+def build_args(name='build_args'):
     '''!input'''
-    all = list(mru_list('build_args'))
+    all = list(mru_list(name))
     all.append('[[empty]]')
     all.append('[[input]]')
     print('\n'.join(x.replace('"', '\\"') for x in all))
     return 0
 
-def set_build_args():
+def flash_args():
+    '''!input'''
+    return build_args('flash_args')
+
+def set_build_args(name='build_args'):
     '''!
     example: change arguments, icon=ellipsis
         "${input:build_args}"
     '''
-    val = opt_input(argv(0))
-    ok = val.strip().startswith('[')
-    ok = ok or val.strip().startswith('"')
-    ok = ok or val == ''
-    if ok and val != '':
-        try:
-            val = json.loads(val)
-            if (isinstance(val, str)):
-                val = [val]
-            val = json.dumps(val)
-        except:
-            ok = False
-    if not ok:
-        print(red('Arguments must be a JSON array or string'), file=sys.stderr)
-        return 3
-    val = set_value('build_args', mru_update('build_args', val))
+    if argv(0) == '[[input]]':
+        val = json.dumps(convert_bash_options(opt_input(argv(0))))
+    else:
+        val = opt_input(argv(0))
+    val = set_value(name, mru_update(name, val))
     print(f'Build arguments: {green(val)}\n\n')
     return 0
+
+def set_flash_args():
+    '''!
+    example: flash arguments, icon=ellipsis
+        "${input:flash_args}"
+    '''
+    return set_build_args('flash_args')
 
 def build_dir_name():
     board = get_value('board')
@@ -154,7 +154,8 @@ def flash():
     '''
     args, dir_args, cmd_args, build_dir, sample_dir = get_build_info()
     build()
-    exec(['west', 'flash'] + dir_args, cwd=sample_dir)
+    flash_args = json.loads(get_value('flash_args').strip() or '""')
+    exec(['west', 'flash'] + dir_args + flash_args, cwd=sample_dir)
 
 def target():
     '''!

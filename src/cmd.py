@@ -23,8 +23,12 @@ def main():
         exit(import_module("build").set_sample())
     elif argv[1] == "build_args":
         exit(import_module("build").build_args())
+    elif argv[1] == "flash_args":
+        exit(import_module("build").flash_args())
     elif argv[1] == "set_build_args":
         exit(import_module("build").set_build_args())
+    elif argv[1] == "set_flash_args":
+        exit(import_module("build").set_flash_args())
     elif argv[1] == "get_build_dir_name":
         exit(import_module("build").get_build_dir_name())
     elif argv[1] == "build":
