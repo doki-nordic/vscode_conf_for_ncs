@@ -35,7 +35,11 @@ def bash_end(args, bash):
 
 def exec(args, cwd=None, allow_fail=False, bash=False):
     args = bash_args(args, bash)
-    print(f'Run command: {green(" ".join(str(a) for a in args))}\n')
+    print(f'Run command: {green(" ".join(str(a) for a in args))}')
+    if cwd:
+        print(f'    in: {cwd}\n')
+    else:
+        print('\n')
     sub = subprocess.run(args, cwd=cwd)
     bash_end(args, bash)
     if sub.returncode != 0 and not allow_fail:
@@ -94,7 +98,7 @@ def set_value(name, value, global_opt=False):
 def get_value(name):
     file: Path = current_opt_dir / (name + '.txt')
     if not file.exists():
-        return None
+        return ''
     return file.read_text()
 
 def green(text):

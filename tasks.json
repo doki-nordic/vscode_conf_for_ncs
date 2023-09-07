@@ -60,7 +60,7 @@
 				"source": "gcc",
 				"fileLocation": [
 					"autoDetect",
-					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
+					"${input:_helper_get_sample}/build_${input:_helper_get_build_dir_name}"
 				],
 				"pattern": {
 					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-zA-Z]+):)?\\s*(.*)$",
@@ -87,7 +87,7 @@
 				"source": "gcc",
 				"fileLocation": [
 					"autoDetect",
-					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
+					"${input:_helper_get_sample}/build_${input:_helper_get_build_dir_name}"
 				],
 				"pattern": {
 					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-zA-Z]+):)?\\s*(.*)$",
@@ -114,7 +114,7 @@
 				"source": "gcc",
 				"fileLocation": [
 					"autoDetect",
-					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
+					"${input:_helper_get_sample}/build_${input:_helper_get_build_dir_name}"
 				],
 				"pattern": {
 					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-zA-Z]+):)?\\s*(.*)$",
@@ -141,7 +141,7 @@
 				"source": "gcc",
 				"fileLocation": [
 					"autoDetect",
-					"${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
+					"${input:_helper_get_sample}/build_${input:_helper_get_build_dir_name}"
 				],
 				"pattern": {
 					"regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\s*([a-zA-Z]+):)?\\s*(.*)$",
@@ -523,6 +523,33 @@
 			"command": "shellCommand.execute",
 			"args": {
 				"command": "${workspaceFolder}/.vscode/cmd instance_title"
+			}
+		},
+		{
+			"id": "_helper_get_board",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/cmd get_board",
+				"useFirstResult": true
+			}
+		},
+		{
+			"id": "_helper_get_sample",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/cmd get_sample",
+				"useFirstResult": true
+			}
+		},
+		{
+			"id": "_helper_get_build_dir_name",
+			"type": "command",
+			"command": "shellCommand.execute",
+			"args": {
+				"command": "${workspaceFolder}/.vscode/cmd get_build_dir_name",
+				"useFirstResult": true
 			}
 		}
 	]

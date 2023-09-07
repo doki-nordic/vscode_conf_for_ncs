@@ -11,16 +11,22 @@ def main():
         exit(import_module("serial").term())
     elif argv[1] == "boards":
         exit(import_module("build").boards())
+    elif argv[1] == "get_board":
+        exit(import_module("build").get_board())
     elif argv[1] == "set_board":
         exit(import_module("build").set_board())
     elif argv[1] == "samples":
         exit(import_module("build").samples())
+    elif argv[1] == "get_sample":
+        exit(import_module("build").get_sample())
     elif argv[1] == "set_sample":
         exit(import_module("build").set_sample())
     elif argv[1] == "build_args":
         exit(import_module("build").build_args())
     elif argv[1] == "set_build_args":
         exit(import_module("build").set_build_args())
+    elif argv[1] == "get_build_dir_name":
+        exit(import_module("build").get_build_dir_name())
     elif argv[1] == "build":
         exit(import_module("build").build())
     elif argv[1] == "rebuild":

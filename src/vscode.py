@@ -33,6 +33,7 @@ def source_zephyr_inner():
     exec(textwrap.dedent(f'''
         source {argv(0)} || true
         source {root_dir}/.venv/bin/activate || true
+        export LD_LIBRARY_PATH={root_dir}/.venv/bin:{root_dir}/.venv/lib:$LD_LIBRARY_PATH
         unset GNOME_TERMINAL_SCREEN
         code
         '''), bash=True)

@@ -24,6 +24,11 @@ def boards():
     print('\n'.join(all))
     return 0
 
+def get_board():
+    '''!input, one'''
+    print(get_value('board'))
+    return 0
+
 def set_board():
     '''!
     example: change board, icon=circuit-board
@@ -43,6 +48,11 @@ def samples():
     all.append('[[from current CMakeLists.txt]]')
     all.append('[[input]]')
     print('\n'.join(all))
+    return 0
+
+def get_sample():
+    '''!input, one'''
+    print(get_value('sample'))
     return 0
 
 def set_sample():
@@ -90,10 +100,19 @@ def set_build_args():
     print(f'Build arguments: {green(val)}\n\n')
     return 0
 
+def build_dir_name():
+    board = get_value('board')
+    return re.sub(r'[^\w_-]', '_', f'build_{board}')
+
+def get_build_dir_name():
+    '''!input, one'''
+    print(build_dir_name())
+    return 0
+
 def get_build_info():
     sample_dir = Path(get_value('sample'))
     board = get_value('board')
-    build_dir = sample_dir / re.sub(r'[^\w_-]', '_', f'build_{board}')
+    build_dir = build_dir_name()
     print(f'Sample {green(sample_dir.stem)} for {green(board)}\n')
     print(f'Build directory: {green(build_dir)}\n')
     args = ['west', 'build', '-b', board]
@@ -126,7 +145,7 @@ def purge():
     example: purge, gcc, icon=symbol-field
     '''
     args, dir_args, cmd_args, build_dir, sample_dir = get_build_info()
-    shutil.rmtree(build_dir)
+    shutil.rmtree(sample_dir / build_dir, ignore_errors=True)
     build()
 
 def flash():

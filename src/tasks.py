@@ -21,7 +21,7 @@ GCC_PROBLEM_MATCHER = json.loads('''
         "source": "gcc",
         "fileLocation": [
             "autoDetect",
-            "${input:exampleFolderFirst}/build_${input:exampleBoardFirst}"
+            "${input:_helper_get_sample}/build_${input:_helper_get_build_dir_name}"
         ],
         "pattern": {
             "regexp": "^(.*?):([0-9]+)(:([0-9]+))?:(\\\\s*([a-zA-Z]+):)?\\\\s*(.*)$",
@@ -40,9 +40,21 @@ inputs = []
 args_replace = {}
 locations = {}
 
-def add_input(func_name, args):
+def split_options(options):
+    return re.split(r'\s*,\s*', options)
+
+def add_input(func_name, options, args):
     input_id = INPUT_PREFIX + func_name
     args_replace['{input:' + func_name + '}'] = '{input:' + input_id + '}'
+    use_first = False
+    for option in options:
+        if option.strip() == 'one':
+            use_first = True
+        elif option.strip() == '':
+            pass
+        else:
+            print('Unknown option', option, file=sys.stderr)
+            exit(5)
     if len(args) == 0:
         inputs.append({
             'id': input_id,
@@ -52,6 +64,8 @@ def add_input(func_name, args):
                 'command': '${workspaceFolder}/.vscode/cmd ' + func_name
             }
         })
+        if use_first:
+            inputs[-1]['args']['useFirstResult'] = True
     elif len(args) == 1:
         inputs.append({
             'id': input_id,
@@ -72,18 +86,19 @@ def add_task(func_name, options, args):
     task = {}
     if len(args) > 1:
         task = json.loads('\n'.join(args[1:]))
-    options = re.split(r'\s*,\s*', options)
     label = options[0]
     is_gcc = False
     is_hidden = False
     icon = None
     for option in options[1:]:
-        if option == 'gcc':
+        if option.strip() == 'gcc':
             is_gcc = True
-        elif option == 'hide':
+        elif option.strip() == 'hide':
             is_hidden = True
-        elif option.startswith('icon='):
-            icon = option[5:]
+        elif option.strip().startswith('icon='):
+            icon = option.strip()[5:]
+        elif option.strip() == '':
+            pass
         else:
             print('Unknown option', option, file=sys.stderr)
             exit(5)
@@ -119,10 +134,10 @@ def add_entry(mod_name, func_name, text):
             i += 1
             if line != '':
                 args.append(line)
-        if first_line == 'input':
-            add_input(func_name, args)
+        if first_line == 'input' or first_line.startswith('input ') or first_line.startswith('input,'):
+            add_input(func_name, split_options(first_line[6:]), args)
         else:
-            add_task(func_name, first_line, args)
+            add_task(func_name, split_options(first_line), args)
 
 def generate_cmd_script():
     with open(scripts_dir / 'cmd.py', 'w') as f:
