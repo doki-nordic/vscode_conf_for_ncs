@@ -154,7 +154,7 @@ def flash():
     '''
     args, dir_args, cmd_args, build_dir, sample_dir = get_build_info()
     build()
-    flash_args = json.loads(get_value('flash_args').strip() or '""')
+    flash_args = []# TODO: json.loads(get_value('flash_args').strip() or '""')
     exec(['west', 'flash'] + dir_args + flash_args, cwd=sample_dir)
 
 def target():
