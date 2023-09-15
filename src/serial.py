@@ -28,7 +28,10 @@ def serials():
     with_serial = []
     without_serial = []
     for dev in devs:
-        out = get_stdout(['/bin/udevadm', 'info', f'--name=/dev/{dev}'])
+        try:
+            out = get_stdout(['/bin/udevadm', 'info', f'--name=/dev/{dev}'])
+        except:
+            out = ''
         s = re.search(r'ID_SERIAL_SHORT\s*=\s*([^\n]*)', out)
         if s:
             serial = s.group(1).lstrip('0 ')
