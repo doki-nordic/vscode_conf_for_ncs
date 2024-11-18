@@ -76,6 +76,6 @@ def instance():
     settings.write_text(new_text)
     exec(f'''
         export VS_CODE_INSTANCE={instance}
-        export export LD_LIBRARY_PATH={root_dir}/.venv/bin:{root_dir}/.venv/lib:$LD_LIBRARY_PATH
+        export LD_LIBRARY_PATH={root_dir}/.venv/bin:{root_dir}/.venv/lib:$LD_LIBRARY_PATH
         code --user-data-dir {dir}
         ''', bash=True)

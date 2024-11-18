@@ -24,7 +24,8 @@ def serials():
     out = get_stdout(['dmesg'])
     devs = set()
     for m in re.findall(r'(tty[a-zA-Z_0-9]+)', out):
-        devs.add(m)
+        if Path(f'/dev/{m}').exists():
+            devs.add(m)
     with_serial = []
     without_serial = []
     for dev in devs:
